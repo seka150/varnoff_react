@@ -12,12 +12,8 @@ export const useStyles = makeStyles((theme: Theme)=> {
                 }
             },
             root: {
-                display:'flex', 
-                justifyContent:'space-between', 
-                padding:'32px 24px',
-                alignItems:'center',
-                backgroundColor: colors.primary.DEFAULT,
-                maxHeight:'95px',
+                boxShadow: 'none !important',
+                background: `${colors.primary.DEFAULT} !important`,
                 borderBottom: `1px solid ${colors.borderColor}`
             },
             themeIcon: {
@@ -25,6 +21,7 @@ export const useStyles = makeStyles((theme: Theme)=> {
             },
             searchBlock: {
                 display: 'flex',
+                maxHeight: '45px',
                 borderRadius: '8px',
                 backgroundColor: `${colors.primary[600]}`,
                 marginLeft: '28px'
@@ -36,6 +33,14 @@ export const useStyles = makeStyles((theme: Theme)=> {
                 paddingRight: '37px', 
                 borderRight: `1px solid ${colors.borderColor}`,
                 paddingTop: '10px'
+            },
+            toolbar: {
+                justifyContent: 'space-between',
+                padding: '25px 45px'
+            }, 
+            menuIcon: {
+                marginRight: '10px',
+                cursor: 'pointer'
             }
         }
     )
