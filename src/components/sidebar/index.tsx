@@ -11,11 +11,11 @@ import logo from '../../assets/img/sidebar/logo.svg'
 const SidebarComponent = (props: any) => {
     const [active, setActive] = useState('')
     const {isNonMobile, drawerWidth, isOpen, setIsOpen} = props
-    const classes = useStyles()
     const {pathname} = useLocation()
     const navigate = useNavigate()
     const theme = useTheme()
     const colors = tokens(theme.palette.mode)
+    const {Brand, NavItemButton, NavBlock, NavList} = useStyles(theme)
 
     useEffect(()=> {
         setActive(pathname.substring(1))
@@ -39,13 +39,13 @@ const SidebarComponent = (props: any) => {
                     }
                 }}
                 >
-                    <Box className={classes.navBlock}>
+                    <NavBlock>
                         <Box>
                             <FlexBetween>
-                                <Box className={classes.brand}>
+                                <Brand>
                                     <img src={logo} alt="logo" />
                                     <Typography variant='h1' color={theme.palette.mode === 'dark' ? colors.white.DEFAULT : colors.black.DEFAULT}>Demo</Typography>
-                                </Box>
+                                </Brand>
                                 {!isNonMobile && (
                                     <IconButton onClick={()=> setIsOpen(!isOpen)}>
                                         <ChevronLeftOutlined/>
@@ -53,29 +53,29 @@ const SidebarComponent = (props: any) => {
                                 )}
                             </FlexBetween>
                         </Box>
-                        <List className={classes.navList}>
+                        <NavList>
                             {
                                 navMenu.map((element)=> {
                                     return (
                                         <ListItem key={element.id}>
-                                            <ListItemButton onClick={()=> navigate(`${element.path}`)} className={classes.navItem}>
+                                            <NavItemButton onClick={()=> navigate(`${element.path}`)}>
                                                 <ListItemIcon>
                                                     {element.icon}
                                                 </ListItemIcon>
                                             <ListItemText>
                                                 <Typography variant='body1'>{element.name}</Typography>
                                             </ListItemText>
-                                            </ListItemButton>
+                                            </NavItemButton>
                                         </ListItem>
                                     )
                                 })
                             }
-                        </List>
-                    </Box>
+                        </NavList>
+                    </NavBlock>
                     <Box width='100%'>
                         <List>
                             <ListItem>
-                                <ListItemButton className={classes.navItem}>
+                                <NavItemButton >
                                     <ListItemIcon>
                                         <LogoutOutlined/>
                                     </ListItemIcon>
@@ -84,7 +84,7 @@ const SidebarComponent = (props: any) => {
                                             Logout
                                         </Typography>
                                     </ListItemText>
-                                </ListItemButton>
+                                </NavItemButton>
                             </ListItem>
                         </List>
                     </Box>

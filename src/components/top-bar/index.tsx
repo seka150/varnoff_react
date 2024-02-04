@@ -1,42 +1,44 @@
 import React, { useContext } from "react";
-import {AppBar, Box, Grid, IconButton, InputBase, Toolbar, Typography, useTheme} from '@mui/material';
+import {AppBar, Box, IconButton, Typography, useTheme} from '@mui/material';
 import { useAppSelector } from "../../utils/hook";
 import {LightMode, DarkMode, Search, NotificationsNone, MenuOutlined} from '@mui/icons-material';
 import { ColorModeContext} from "../../theme";
-import { useStyles } from "./styles";
+import  {useStyles}  from "./styles";
 import FlexBetween from "../flex-between";
+import { tokens } from '../../theme';
 
 const TopBarComponent = (props: any) => {
     const user = useAppSelector(state => state.auth.user.user)
     const theme = useTheme()
     const colorMode = useContext(ColorModeContext)
-    const classes = useStyles()
     const {isOpen, setIsOpen} = props
+    const colors = tokens(theme.palette.mode)
+    const {Toolbars, SearchIcon, SearchBlock, SearchInput, IconBlock} = useStyles(theme)
 
     return (
-        <AppBar className={classes.root} position="static">
-            <Toolbar className={classes.toolbar}>
+        <AppBar sx={{boxShadow: 'none !important', background: `${colors.primary.DEFAULT} !important`, borderBottom: `1px solid ${colors.borderColor}`}} position="static">
+            <Toolbars>
             <FlexBetween>
-                <MenuOutlined className={classes.menuIcon} onClick={()=> setIsOpen(!isOpen)} />
+                <MenuOutlined sx={{marginRight: '10px', cursor: 'pointer'}} onClick={()=> setIsOpen(!isOpen)} />
                 <Typography variant='h6'>Welcome, {user.firstName}</Typography>
             </FlexBetween>
             <Box display='flex'>
-                <Grid className={classes.iconBlock}>
-                    <IconButton className={classes.themeIcon} onClick={colorMode.toggleColorMode}>
+                <IconBlock>
+                    <IconButton sx={{marginRight: '45px'}} onClick={colorMode.toggleColorMode}>
                         {theme.palette.mode === 'dark' ? (<DarkMode/>) : (<LightMode/>)}
                     </IconButton>
                     <IconButton>
                         <NotificationsNone/>
                     </IconButton>
-                </Grid>
-                <Grid className={classes.searchBlock}>
-                    <IconButton  className={classes.searchIcon}>
+                </IconBlock>
+                <SearchBlock>
+                    <SearchIcon>
                         <Search/>
-                    </IconButton>
-                        <InputBase className={classes.searchInput} placeholder="Поиск"/>
-                </Grid>
+                    </SearchIcon>
+                        <SearchInput placeholder="Поиск"/>
+                </SearchBlock>
                 </Box>
-            </Toolbar>
+            </Toolbars>
         </AppBar>
         // <Box className={classes.root}>
         //     <Grid>Welcome {user.firstName}</Grid>
