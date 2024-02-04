@@ -1,16 +1,22 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { TextField, Button, Typography } from '@mui/material';
 import { IPropsLogin } from '../../../common/types/auth';
 
 const LoginPage: React.FC<IPropsLogin> = (props: IPropsLogin): JSX.Element => {
-  const {setPassword, setEmail, navigate} = props
+  const {navigate, register, errors} = props
+  const emailRegex = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
   return (
     <>
         <Typography variant="h2" fontFamily='Poppins, sans-serif' textAlign='center'>Авторизация</Typography>
+
         <Typography variant="body1" marginBottom={3} fontFamily='Poppins, sans-serif' textAlign='center'>Введите ваш логин и пароль</Typography>
-        <TextField fullWidth={true} margin='normal' label="Email" variant="outlined" placeholder='Введите ваш email' onChange={(e) => setEmail(e.target.value)}/>
-        <TextField type='password' fullWidth={true} margin='normal' label="Password" variant="outlined" placeholder='Введите ваш пароль' onChange={(e)=> setPassword(e.target.value)}/>
+
+        <TextField helperText={errors.email ? `${errors.email.message}` : ''} error={!!errors.email} {...register('email', {required: 'Это обязательное поле', pattern: emailRegex})} fullWidth={true} margin='normal' label="Email" variant="outlined" placeholder='Введите ваш email' />
+
+        <TextField helperText={errors.password ? `${errors.password?.message}` : ''} error={!!errors.password} {...register('password', {required: 'Это обязательное поле', minLength: 6})} type='password' fullWidth={true} margin='normal' label="Password" variant="outlined" placeholder='Введите ваш пароль'/>
+
         <Button type="submit" sx={{fontFamily:'Poppins, sans-serif', marginTop: 2, marginBottom:2, width: '60%'}} variant="contained">Войти</Button>
+
         <Typography variant="body1" sx={{fontFamily:'Poppins, sans-serif' }}>У вас нет аккаунта?<span className='incitingText' onClick={()=> navigate('/register')}>Регистрация</span></Typography>
     </>
   );

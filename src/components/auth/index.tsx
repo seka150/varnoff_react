@@ -8,6 +8,7 @@ import { instance } from '../../utils/axios';
 import { useAppDispatch } from '../../utils/hook';
 import { login } from '../../store/slice/auth';
 import { AppErrors } from '../../common/errors';
+import { useForm } from 'react-hook-form';
 
 const AuthRootComponent: React.FC = ():JSX.Element => {
     const [email, setEmail] = useState('')
@@ -18,14 +19,18 @@ const AuthRootComponent: React.FC = ():JSX.Element => {
     const location = useLocation()
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
+    const {
+        register, formState: {
+            errors
+        }, handleSubmit
+    } = useForm()
 
-    const handleSubmit = async (e: {preventDefault: ()=> void}) => {
-        e.preventDefault()
+    const handleSubmitForm = async (data: any) => {
         if (location.pathname === '/login') {
             try {
                 const userData = {
-                    email,
-                    password
+                    email: data.email,
+                    password: data.password
                 }
                 const user = await instance.post('auth/login', userData)
                 await dispatch(login(user.data))
@@ -56,7 +61,7 @@ const AuthRootComponent: React.FC = ():JSX.Element => {
 
     return (
         <div className='root'>
-            <form className="form" onSubmit={handleSubmit}>
+            <form className="form" onSubmit={handleSubmit(handleSubmitForm)}>
                 <Box
                     display='flex'
                     justifyContent='center'
@@ -70,7 +75,7 @@ const AuthRootComponent: React.FC = ():JSX.Element => {
                 >
                     {
                     location.pathname === '/login' 
-                    ? <LoginPage setEmail = {setEmail} setPassword = {setPassword} navigate={navigate}/> : location.pathname=== '/register' 
+                    ? <LoginPage register={register} errors={errors} navigate={navigate}/> : location.pathname=== '/register' 
                     ? <RegisterPage 
                     setEmail= {setEmail} 
                     setPassword={setPassword} 
