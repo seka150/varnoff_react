@@ -1,9 +1,12 @@
 import React from 'react';
-import { TextField, Button, Typography } from '@mui/material';
+import { TextField, Typography, useTheme } from '@mui/material';
 import { IPropsLogin } from '../../../common/types/auth';
+import { useStyled } from '../styles';
 
 const LoginPage: React.FC<IPropsLogin> = (props: IPropsLogin): JSX.Element => {
   const {navigate, register, errors} = props
+  const theme = useTheme()
+  const {IncitingText, Submit} = useStyled(theme)
   return (
     <>
         <Typography variant="h2" fontFamily='Poppins, sans-serif' textAlign='center'>Авторизация</Typography>
@@ -14,9 +17,9 @@ const LoginPage: React.FC<IPropsLogin> = (props: IPropsLogin): JSX.Element => {
 
         <TextField helperText={errors.password ? `${errors.password?.message}` : ''} error={!!errors.password} {...register('password')} type='password' fullWidth={true} margin='normal' label="Password" variant="outlined" placeholder='Введите ваш пароль'/>
 
-        <Button type="submit" sx={{fontFamily:'Poppins, sans-serif', marginTop: 2, marginBottom:2, width: '60%'}} variant="contained">Войти</Button>
+        <Submit type="submit" variant="contained">Войти</Submit>
 
-        <Typography variant="body1" sx={{fontFamily:'Poppins, sans-serif' }}>У вас нет аккаунта?<span className='incitingText' onClick={()=> navigate('/register')}>Регистрация</span></Typography>
+        <Typography variant="body1" sx={{fontFamily:'Poppins, sans-serif' }}>У вас нет аккаунта?<IncitingText className='incitingText' onClick={()=> navigate('/register')}>Регистрация</IncitingText></Typography>
     </>
   );
 };

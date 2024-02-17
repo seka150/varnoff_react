@@ -1,7 +1,6 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import './style.scss';
-import { Box } from '@mui/material';
+import { useStyled } from './styles';
 import LoginPage from './login';
 import RegisterPage from './register';
 import { instance } from '../../utils/axios';
@@ -11,12 +10,17 @@ import { AppErrors } from '../../common/errors';
 import { useForm } from 'react-hook-form';
 import { yupResolver}  from '@hookform/resolvers/yup';
 import { LoginSchema, RegisterSchema } from '../../utils/yup';
+import { useTheme } from '@mui/material';
+
 
 
 const AuthRootComponent: React.FC = ():JSX.Element => {
     const location = useLocation()
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
+    const theme = useTheme()
+    const {Root, Form, Boxing} = useStyled(theme)
+    
     const {
         register, formState: {
             errors
@@ -58,21 +62,12 @@ const AuthRootComponent: React.FC = ():JSX.Element => {
             }
         }
     }
+    
 
     return (
-        <div className='root'>
-            <form className="form" onSubmit={handleSubmit(handleSubmitForm)}>
-                <Box
-                    display='flex'
-                    justifyContent='center'
-                    alignItems='center'
-                    flexDirection='column'
-                    maxWidth={640}
-                    margin='auto'
-                    padding={5}
-                    borderRadius={5}
-                    boxShadow={'5px 5px 10px #ccc'}
-                >
+        <Root>
+            <Form onSubmit={handleSubmit(handleSubmitForm)}>
+                <Boxing>
                     {
                     location.pathname === '/login' 
                     ? <LoginPage register={register} errors={errors} navigate={navigate}/> 
@@ -85,9 +80,9 @@ const AuthRootComponent: React.FC = ():JSX.Element => {
                     : null
                 }
 
-                </Box>
-            </form>
-        </div>
+                </Boxing>
+            </Form>
+        </Root>
     )
 }
 

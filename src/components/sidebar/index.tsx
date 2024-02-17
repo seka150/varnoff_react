@@ -1,24 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import { useStyles } from './styles';
-import {Box, Drawer, Divider, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Typography, useTheme} from '@mui/material';
-import {ChevronLeftOutlined, ChevronRightOutlined, LogoutOutlined} from '@mui/icons-material';
+import { FC, useEffect, useState } from 'react';
+import { useStyled } from './styles';
+import {Box, Drawer, IconButton, List, ListItem, ListItemIcon, ListItemText, Typography, useTheme} from '@mui/material';
+import {ChevronLeftOutlined, LogoutOutlined} from '@mui/icons-material';
 import { useLocation, useNavigate } from 'react-router-dom';
 import FlexBetween from '../flex-between';
 import { navMenu } from '../../common/moks/navigate';
 import { tokens } from '../../theme';
 import logo from '../../assets/img/sidebar/logo.svg'
+import { ISidebarProps } from '../../common/types/sidebar';
 
-const SidebarComponent = (props: any) => {
+const SidebarComponent: FC<ISidebarProps> = (props: ISidebarProps): JSX.Element => {
     const [active, setActive] = useState('')
     const {isNonMobile, drawerWidth, isOpen, setIsOpen} = props
     const {pathname} = useLocation()
     const navigate = useNavigate()
     const theme = useTheme()
     const colors = tokens(theme.palette.mode)
-    const {Brand, NavItemButton, NavBlock, NavList} = useStyles(theme)
+    const {Brand, NavItemButton, NavBlock, NavList} = useStyled(theme)
 
     useEffect(()=> {
-        setActive(pathname.substring(1))
+        setActive(pathname)
     }, [pathname])
 
     return (
@@ -58,7 +59,7 @@ const SidebarComponent = (props: any) => {
                                 navMenu.map((element)=> {
                                     return (
                                         <ListItem key={element.id}>
-                                            <NavItemButton onClick={()=> navigate(`${element.path}`)}>
+                                            <NavItemButton className={active === element.path ? 'active' : ''} onClick={() => navigate(`${element.path}`)}>
                                                 <ListItemIcon>
                                                     {element.icon}
                                                 </ListItemIcon>
