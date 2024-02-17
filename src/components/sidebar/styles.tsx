@@ -2,7 +2,7 @@ import { styled, Box, Theme } from '@mui/system';
 import { tokens } from '../../theme';
 import { List, ListItemButton } from '@mui/material';
 
-export const useStyles = (theme: Theme) => {
+export const useStyled = (theme: Theme) => {
     const colors = tokens(theme.palette.mode);
 
     const Brand = styled(Box)({
@@ -13,7 +13,7 @@ export const useStyles = (theme: Theme) => {
         cursor: 'pointer',
     });
 
-    const NavItemButton = styled(ListItemButton)({
+    const NavItemButton = styled(ListItemButton)(({ theme }) => ({
         '&:hover': {
             backgroundColor: '#1900d5 !important',
             color: '#fff',
@@ -22,7 +22,12 @@ export const useStyles = (theme: Theme) => {
                 color: `${colors.white.DEFAULT} !important`,
             },
         },
-    });
+        '&.active': {
+            backgroundColor: '#1900d5 !important',
+            color: '#fff !important',
+            borderRadius: '4px !important'
+        },
+    }));
 
     const NavBlock = styled(Box)({
         borderBottom: `1px solid ${colors.borderColor}`,
