@@ -2,11 +2,12 @@ import React from 'react'
 import { Typography, TextField, useTheme } from '@mui/material';
 import { IPropsRegister } from '../../../common/types/auth';
 import { useStyled } from '../styles';
+import AppLoadingButton from '../../../components/loading-button';
 
 const RegisterPage:React.FC<IPropsRegister> = (props : IPropsRegister): JSX.Element => {
-  const { navigate, register, errors} = props
+  const { navigate, register, errors, loading} = props
   const theme = useTheme()
-  const {IncitingText, Submit} = useStyled(theme)
+  const {IncitingText} = useStyled(theme)
   return (
     <>
     <Typography variant="h2" fontFamily='Poppins, sans-serif' textAlign='center'>Регистрация</Typography>
@@ -63,7 +64,7 @@ const RegisterPage:React.FC<IPropsRegister> = (props : IPropsRegister): JSX.Elem
       helperText={errors.confirmPasswort ? `${errors.confirmPasswort.message}` : ''}
       {...register('confirmPasswort')}
       />
-    <Submit type='submit' sx={{fontFamily:'Poppins, sans-serif', marginTop: 2, marginBottom:2, width: '60%'}} variant="contained">Регистрация</Submit>
+    <AppLoadingButton loading={loading} type='submit' sx={{fontFamily:'Poppins, sans-serif', marginTop: 2, marginBottom:2, width: '60%'}} variant="contained">Регистрация</AppLoadingButton>
     <Typography variant="body1" sx={{fontFamily:'Poppins, sans-serif' }}>У вас есть аккаунт?<IncitingText onClick={()=> navigate('/login')}>Войти</IncitingText></Typography>
 </>
   )

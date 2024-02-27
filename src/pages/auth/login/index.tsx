@@ -2,11 +2,12 @@ import React from 'react';
 import { TextField, Typography, useTheme } from '@mui/material';
 import { IPropsLogin } from '../../../common/types/auth';
 import { useStyled } from '../styles';
+import AppLoadingButton from '../../../components/loading-button';
 
 const LoginPage: React.FC<IPropsLogin> = (props: IPropsLogin): JSX.Element => {
-  const {navigate, register, errors} = props
+  const {navigate, register, errors, loading} = props
   const theme = useTheme()
-  const {IncitingText, Submit} = useStyled(theme)
+  const {IncitingText} = useStyled(theme)
   return (
     <>
         <Typography variant="h2" fontFamily='Poppins, sans-serif' textAlign='center'>Авторизация</Typography>
@@ -17,7 +18,7 @@ const LoginPage: React.FC<IPropsLogin> = (props: IPropsLogin): JSX.Element => {
 
         <TextField helperText={errors.password ? `${errors.password?.message}` : ''} error={!!errors.password} {...register('password')} type='password' fullWidth={true} margin='normal' label="Password" variant="outlined" placeholder='Введите ваш пароль'/>
 
-        <Submit type="submit" variant="contained">Войти</Submit>
+        <AppLoadingButton loading={loading} type="submit" variant="contained">Войти</AppLoadingButton>
 
         <Typography variant="body1" sx={{fontFamily:'Poppins, sans-serif' }}>У вас нет аккаунта?<IncitingText className='incitingText' onClick={()=> navigate('/register')}>Регистрация</IncitingText></Typography>
     </>
