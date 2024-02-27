@@ -1,6 +1,5 @@
 import React, { FC, useContext } from "react";
 import {AppBar, Box, IconButton, Typography, useTheme} from '@mui/material';
-import { useAppSelector } from "../../utils/hook";
 import {LightMode, DarkMode, Search, NotificationsNone, MenuOutlined} from '@mui/icons-material';
 import { ColorModeContext} from "../../theme";
 import  {useStyles}  from "./styles";
@@ -9,7 +8,6 @@ import { tokens } from '../../theme';
 import { ITopBarProps } from "../../common/types/top-bar";
 
 const TopBarComponent: FC<ITopBarProps> = (props: ITopBarProps): JSX.Element=> {
-    const user = useAppSelector(state => state.auth.user.user)
     const theme = useTheme()
     const colorMode = useContext(ColorModeContext)
     const {isOpen, setIsOpen} = props
@@ -21,7 +19,7 @@ const TopBarComponent: FC<ITopBarProps> = (props: ITopBarProps): JSX.Element=> {
             <Toolbars>
             <FlexBetween>
                 <MenuOutlined sx={{marginRight: '10px', cursor: 'pointer'}} onClick={()=> setIsOpen(!isOpen)} />
-                <Typography variant='h6'>Welcome, {user.firstName}</Typography>
+                <Typography variant='h6'>Welcome, {sessionStorage.getItem('name')}</Typography>
             </FlexBetween>
             <Box display='flex'>
                 <IconBlock>
