@@ -9,7 +9,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver}  from '@hookform/resolvers/yup';
 import { LoginSchema, RegisterSchema } from '../../utils/yup';
 import { useTheme } from '@mui/material';
-import { loginUser, registerUser } from '../../store/thunks/auth' // работает регистрация но не перенаправляет на /
+import { loginUser, registerUser } from '../../store/thunks/auth'
 
 
 
