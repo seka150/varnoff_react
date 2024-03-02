@@ -1,4 +1,4 @@
-import styled from "@emotion/styled";
+import {styled} from "@mui/system"
 import { Box, Theme } from "@mui/material";
 import { tokens } from "../../theme";
 
@@ -30,7 +30,7 @@ export const useStyled = (theme: Theme) => {
         height: '80%',
         flexDirection: 'column',
         justifyContent: 'flex-end',
-        paddingBottom: '20px'
+        paddingBottom: '35px'
     });
 
     const CardPrice = styled('h3')({
@@ -39,12 +39,31 @@ export const useStyled = (theme: Theme) => {
         lineHeight: '0', 
     });
 
-    const CardCapitalize = styled('p')({
-        color: `${colors.secondary.DEFAULT}`,
-        fontWeight: 400,
-        fontSize: 18,
-        lineHeight: '0', 
+    const PriceTrend = styled(Box)({
+        width: '20%',
+        display: 'flex',
+        alignItems: 'center',
+        padding: '2px',
+        borderRadius: 4,
     });
 
-    return { Root, TopCardItem, AssetName, ItemDetails, CardPrice, CardCapitalize };
+    const PriceUp = styled(Box)({
+        backgroundColor: '#A9FFA7',
+        color: '#037400',
+        display: 'flex',
+        alignItems: 'center',
+        padding: '2px',
+        borderRadius: 4,
+    });
+
+    const PriceDown = styled(Box)({
+        backgroundColor: '#FFA7A7',
+        display: 'flex',
+        alignItems: 'center',
+        padding: '2px',
+        borderRadius: 4,
+        color: '#740000'
+    })
+
+    return { Root, TopCardItem, AssetName, ItemDetails, CardPrice, PriceTrend, PriceUp, PriceDown};
 };
