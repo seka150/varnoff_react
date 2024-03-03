@@ -1,5 +1,5 @@
 import {styled} from "@mui/system"
-import { Box, Theme } from "@mui/material";
+import { Box, Grid, Theme } from "@mui/material";
 import { tokens } from "../../theme";
 
 export const useStyled = (theme: Theme) => {
@@ -63,7 +63,19 @@ export const useStyled = (theme: Theme) => {
         padding: '2px',
         borderRadius: 4,
         color: '#740000'
-    })
+    });
 
-    return { Root, TopCardItem, AssetName, ItemDetails, CardPrice, PriceTrend, PriceUp, PriceDown};
+    const LineChartBlock = styled(Grid)({
+        backgroundColor: `${theme.palette.mode === 'light' ? colors.primary.DEFAULT : colors.primary[600]}`,
+        padding: '20px 10px',
+        minHeight: 270,
+        border: `1px solid ${colors.borderColor}`,
+        borderRadius: 12,
+    });
+
+    const AreaChartBlock = styled(Grid)({
+        marginBottom: 32
+    });
+
+    return { Root, TopCardItem, AssetName, ItemDetails, CardPrice, PriceTrend, PriceUp, PriceDown, LineChartBlock, AreaChartBlock};
 };
