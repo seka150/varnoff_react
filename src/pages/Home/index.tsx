@@ -33,12 +33,12 @@ const Home: FC = (): JSX.Element => {
         fetchData(favoriteAssetsName)
     }, [favoriteAssetsName, fetchData])
 
-    const renderFavoriteBlock = filteredArray.map((element: any)=> {
+    const renderFavoriteBlock = filteredArray.map((element: IChartData)=> {
         const currentPrice = element.singleAsset.map((element: any) => element.current_price,)
         const currentCap = element.singleAsset.map((element: any) => element.market_cap,)
         const changePrice = element.singleAsset.map((element: any) => element.price_change_percentage_24h,)
         return (
-            <Grid item lg={6} md={6} xs={12} key={element.id}>
+            <Grid item lg={6} md={6} xs={12} key={element.name}>
                 <TopCardItem>
                     <Grid container>
                         <Grid item lg={6} md={10} xs={12}>
@@ -46,7 +46,7 @@ const Home: FC = (): JSX.Element => {
                             <ItemDetails>
                                 <CardPrice>${currentPrice}</CardPrice>
                                 <PriceTrend>
-                                    {changePrice > 0 ? (
+                                    {changePrice[0] > 0 ? (
                                         <>
                                         <PriceUp>
                                             <img src={TrendUp} alt="TrendUp" />
@@ -66,7 +66,7 @@ const Home: FC = (): JSX.Element => {
                             </ItemDetails>
                         </Grid>
                         <Grid item lg={6} md={6} xs={12}>
-                            <AreaChart key={element.id} data={element.price_chart_data}/>
+                            <AreaChart key={element.name} data={element.price_chart_data}/>
                         </Grid>
                     </Grid>
                 </TopCardItem>
