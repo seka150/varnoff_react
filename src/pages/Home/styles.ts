@@ -40,7 +40,7 @@ export const useStyled = (theme: Theme) => {
     });
 
     const PriceTrend = styled(Box)({
-        width: '20%',
+        width: 80,
         display: 'flex',
         alignItems: 'center',
         padding: '2px',
@@ -68,6 +68,7 @@ export const useStyled = (theme: Theme) => {
     const LineChartBlock = styled(Grid)({
         backgroundColor: `${theme.palette.mode === 'light' ? colors.primary.DEFAULT : colors.primary[600]}`,
         padding: '20px 10px',
+        marginBottom: 32,
         minHeight: 270,
         border: `1px solid ${colors.borderColor}`,
         borderRadius: 12,
@@ -77,5 +78,23 @@ export const useStyled = (theme: Theme) => {
         marginBottom: 32
     });
 
-    return { Root, TopCardItem, AssetName, ItemDetails, CardPrice, PriceTrend, PriceUp, PriceDown, LineChartBlock, AreaChartBlock};
+    const TopPriceRoot = styled(Grid)({
+        backgroundColor: `${
+            theme.palette.mode === 'light' 
+            ? colors.primary.DEFAULT
+            : colors.primary[600]
+        }`,
+        padding: '20px 16px',
+        marginBottom: 32,
+        minHeight: 270,
+        border: `1px solid ${colors.borderColor}`,
+        borderRadius: 12,
+        '& .MuiPaper-root': {
+            backgroundColor: 'transparent !important',
+            boxShadow: 'none !important',
+            backgroundImage: 'none !important'
+        }
+    });
+
+    return { Root, TopCardItem, AssetName, ItemDetails, CardPrice, PriceTrend, PriceUp, PriceDown, LineChartBlock, AreaChartBlock, TopPriceRoot};
 };
