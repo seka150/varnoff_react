@@ -23,7 +23,7 @@ ChartJS.register(
     Legend,
 )
 
-const LineChart: FC<ILineChartProps> = (props: ILineChartProps) => {
+const LineChartComponent: FC<ILineChartProps> = (props: ILineChartProps) => {
     const { data } = props
 
     const options = {
@@ -62,4 +62,4 @@ const LineChart: FC<ILineChartProps> = (props: ILineChartProps) => {
     return <Line options={options} data={values} width="100%" height="20%" />
 }
 
-export default LineChart
+export default LineChartComponent

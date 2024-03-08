@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import {AppBar, Grid, Typography, useTheme} from '@mui/material';
 import { MenuOutlined} from '@mui/icons-material';
 import  {useStyles}  from "./styles";
-import FlexBetween from "../flex-between";
+import FlexBetweenComponent from "../flex-between";
 import { tokens } from '../../theme';
 import { ITopBarProps } from "../../common/types/top-bar";
 import SearchBarComponent from "../search-bar";
@@ -19,10 +19,10 @@ const TopBarComponent: FC<ITopBarProps> = (props: ITopBarProps): JSX.Element=> {
             <Toolbars>
             <Grid container justifyContent="space-between" alignItems="center">
                 <Grid item sm={3} lg={3} >
-                    <FlexBetween>
+                    <FlexBetweenComponent>
                         <MenuOutlined sx={{marginRight: '10px', cursor: 'pointer'}} onClick={()=> setIsOpen(!isOpen)} />
                         <Typography variant='h6'>Welcome, {sessionStorage.getItem('name')}</Typography>
-                    </FlexBetween>
+                    </FlexBetweenComponent>
                 </Grid>
                 {isNonMobile && (
                     <Grid display="flex" justifyContent="flex-end" item sm={9} lg={9} >

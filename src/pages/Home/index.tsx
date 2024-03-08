@@ -3,15 +3,15 @@ import { useAppDispatch, useAppSelector } from "../../utils/hook";
 import { getFavoriteAssets, getTopPriceData } from "../../store/thunks/assets";
 import { Grid, useTheme } from "@mui/material";
 import { useStyled } from "./styles";
-import AreaChart from "../../components/charts/area-chart";
+import AreaChartComponent from "../../components/charts/area-chart";
 import TrendUp from '../../assets/img/home/trend-up.svg'
 import TrendDown from '../../assets/img/home/trend-down.svg'
-import LineChart from "../../components/charts/line-chart";
+import LineChartComponent from "../../components/charts/line-chart";
 import { IChartData, ISingleAsset } from "../../common/types/assets";
 import TopPriceComponent from "../../components/top-price";
 
 
-const Home: FC = (): JSX.Element => {
+const HomePage: FC = (): JSX.Element => {
     const favoriteAssets: IChartData[] = useAppSelector(
         (state) => state.assets.favoriteAssets,
     )
@@ -84,7 +84,7 @@ const Home: FC = (): JSX.Element => {
                             </ItemDetails>
                         </Grid>
                         <Grid item lg={6} md={6} xs={12}>
-                            <AreaChart key={element.name} data={element.price_chart_data}/>
+                            <AreaChartComponent key={element.name} data={element.price_chart_data}/>
                         </Grid>
                     </Grid>
                 </TopCardItem>
@@ -103,7 +103,7 @@ const Home: FC = (): JSX.Element => {
             <LineChartBlock>
                 <Grid container>
                     <Grid item lg={12} md={12} xs={12}>
-                        {filteredArray.length && <LineChart data={filteredArray}/>}
+                        {filteredArray.length && <LineChartComponent data={filteredArray}/>}
                     </Grid>
                 </Grid>
             </LineChartBlock>
@@ -116,4 +116,4 @@ const Home: FC = (): JSX.Element => {
     )
 }
 
-export default Home;
+export default HomePage;

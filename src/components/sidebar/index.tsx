@@ -3,7 +3,7 @@ import { useStyled } from './styles';
 import {Box, Drawer, IconButton, List, ListItem, ListItemIcon, ListItemText, Typography, useTheme} from '@mui/material';
 import {ChevronLeftOutlined, LogoutOutlined} from '@mui/icons-material';
 import { useLocation, useNavigate } from 'react-router-dom';
-import FlexBetween from '../flex-between';
+import FlexBetweenComponent from '../flex-between';
 import { navMenu } from '../../common/moks/navigate';
 import { tokens } from '../../theme';
 import logo from '../../assets/img/sidebar/logo.svg'
@@ -44,7 +44,7 @@ const SidebarComponent: FC<ISidebarProps> = (props: ISidebarProps): JSX.Element 
                 >
                     <NavBlock>
                         <Box>
-                            <FlexBetween>
+                            <FlexBetweenComponent>
                                 <Brand>
                                     <img src={logo} alt="logo" />
                                     <Typography variant='h1' color={theme.palette.mode === 'dark' ? colors.white.DEFAULT : colors.black.DEFAULT}>Demo</Typography>
@@ -54,7 +54,7 @@ const SidebarComponent: FC<ISidebarProps> = (props: ISidebarProps): JSX.Element 
                                         <ChevronLeftOutlined/>
                                     </IconButton>
                                 )}
-                            </FlexBetween>
+                            </FlexBetweenComponent>
                         </Box>
                         {!isNonMobile && (
                             <List>

@@ -15,7 +15,7 @@ ChartJS.register(
     Legend,
 )
 
-const AreaChart: FC<IAreaChartProps> = (props: IAreaChartProps) => {
+const AreaChartComponent: FC<IAreaChartProps> = (props: IAreaChartProps) => {
     const { data } = props
 
     const options = {
@@ -65,4 +65,4 @@ const AreaChart: FC<IAreaChartProps> = (props: IAreaChartProps) => {
     return <Line options={options} data={values} width={300} height={100} />
 }
 
-export default AreaChart
+export default AreaChartComponent
