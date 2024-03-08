@@ -8,6 +8,8 @@ import { navMenu } from '../../common/moks/navigate';
 import { tokens } from '../../theme';
 import logo from '../../assets/img/sidebar/logo.svg'
 import { ISidebarProps } from '../../common/types/sidebar';
+import ThemeSwitcherComponent from '../theme-switcher';
+import SearchBarComponent from '../search-bar';
 
 const SidebarComponent: FC<ISidebarProps> = (props: ISidebarProps): JSX.Element => {
     const [active, setActive] = useState('')
@@ -54,6 +56,13 @@ const SidebarComponent: FC<ISidebarProps> = (props: ISidebarProps): JSX.Element 
                                 )}
                             </FlexBetween>
                         </Box>
+                        {!isNonMobile && (
+                            <List>
+                            <ListItem>
+                                <SearchBarComponent/>
+                            </ListItem>
+                        </List>
+                        )}
                         <NavList>
                             {
                                 navMenu.map((element)=> {
@@ -75,6 +84,13 @@ const SidebarComponent: FC<ISidebarProps> = (props: ISidebarProps): JSX.Element 
                     </NavBlock>
                     <Box width='100%'>
                         <List>
+                            {!isNonMobile && (
+                                <ListItem>
+                                    <Box padding="5px">
+                                        <ThemeSwitcherComponent/>
+                                    </Box>
+                                </ListItem>
+                            )}
                             <ListItem>
                                 <NavItemButton >
                                     <ListItemIcon>
