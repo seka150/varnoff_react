@@ -54,7 +54,6 @@ const Home: FC = (): JSX.Element => {
 
     const renderFavoriteBlock = filteredArray.map((element: IChartData)=> {
         const currentPrice = element.singleAsset.map((element: any) => element.current_price,)
-        const currentCap = element.singleAsset.map((element: any) => element.market_cap,)
         const changePrice = element.singleAsset.map((element: any) => element.price_change_percentage_24h,)
         return (
             <Grid item lg={6} md={6} xs={12} key={element.name}>
