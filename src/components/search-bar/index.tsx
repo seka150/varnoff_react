@@ -2,9 +2,9 @@ import { Stack, Autocomplete, TextField } from "@mui/material";
 import { useAppSelector } from "../../utils/hook";
 import { ISingleAsset } from "../../common/types/assets";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { FC, useState } from "react";
 
-const SearchBarComponent = () => {
+const SearchBarComponent: FC = (): JSX.Element => {
     const [selectedItem, setSelectedItem] = useState<string | null>('')
     const navigate = useNavigate()
     const assetsArray: ISingleAsset[] = useAppSelector(

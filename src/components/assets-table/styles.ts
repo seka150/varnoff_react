@@ -1,5 +1,5 @@
-import {styled} from "@mui/system"
 import { TableCell, Theme } from "@mui/material";
+import {styled} from "@mui/system"
 
 
 export const useStyled = (theme: Theme) => {
