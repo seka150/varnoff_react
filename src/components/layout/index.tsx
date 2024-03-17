@@ -6,7 +6,7 @@ import SidebarComponent from "../sidebar";
 import { RootContainer, MainSectionContainer } from "./styles";
 
 const LayoutComponent: FC = (): JSX.Element => {
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(true);
     const location = useLocation();
     const isNonMobile = useMediaQuery('(min-width:760px)');
 
