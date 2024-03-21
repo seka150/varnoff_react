@@ -8,6 +8,7 @@ import SettingsPersonalInfoComponent from '../../components/settings-personal-in
 import { useAppDispatch } from '../../utils/hook'
 import { getPublicUser } from '../../store/thunks/auth'
 import ChangePasswordComponent from '../../components/change-password'
+import DeleteUserComponent from '../../components/delete-user'
 
 
 const SettingsPage = () => {
@@ -40,7 +41,7 @@ const SettingsPage = () => {
           <ChangePasswordComponent/>
         </TabPanel>
         <TabPanel value={value} index={2}>
-          Item Three
+          <DeleteUserComponent/>
         </TabPanel>
       </Root>
     )
