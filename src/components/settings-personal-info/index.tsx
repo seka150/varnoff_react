@@ -14,7 +14,6 @@ const SettingsPersonalInfoComponent: FC = (): JSX.Element => {
     const [email, setEmail] = useState('')
 
     const { user } = useAppSelector((state) => state.auth.user)
-    console.log(user)
     useEffect(() => {
         if (user) {
             setName(user.firstName)
