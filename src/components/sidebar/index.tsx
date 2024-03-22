@@ -47,7 +47,7 @@ const SidebarComponent: FC<ISidebarProps> = (props: ISidebarProps): JSX.Element 
                             <FlexBetweenComponent>
                                 <Brand>
                                     <img src={logo} alt="logo" />
-                                    <Typography variant='h1' color={theme.palette.mode === 'dark' ? colors.white.DEFAULT : colors.black.DEFAULT}>Demo</Typography>
+                                    <Typography variant='h1' color={theme.palette.mode === 'dark' ? colors.white.DEFAULT : colors.black.DEFAULT}>Varnoff</Typography>
                                 </Brand>
                                 {!isNonMobile && (
                                     <IconButton onClick={()=> setIsOpen(!isOpen)}>

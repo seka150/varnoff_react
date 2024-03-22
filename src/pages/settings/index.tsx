@@ -22,7 +22,7 @@ const SettingsPage = () => {
   }
 
   useEffect(() => {
-    dispatch(getPublicUser)
+    dispatch(getPublicUser())
   }, [dispatch])
 
     return (

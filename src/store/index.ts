@@ -9,7 +9,7 @@ const store = configureStore({
         auth: authSlice.reducer,
         assets: assetSlice,
         watchlist : watchlistSlice,
-        news: newsSlice
+        news: newsSlice,
     }
 }) 
 

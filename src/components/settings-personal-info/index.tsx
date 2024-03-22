@@ -14,11 +14,18 @@ const SettingsPersonalInfoComponent: FC = (): JSX.Element => {
     const [email, setEmail] = useState('')
 
     const { user } = useAppSelector((state) => state.auth.user)
+
     useEffect(() => {
         if (user) {
             setName(user.firstName)
             setUsername(user.username)
             setEmail(user.email)
+        }
+    }, [user])
+
+    useEffect(() => {
+        if (user) {
+            setName(user.firstName)
         }
     }, [user])
 
@@ -62,8 +69,8 @@ const SettingsPersonalInfoComponent: FC = (): JSX.Element => {
                     label="Email"
                     variant="outlined"
                 />
-                <ButtonBlock>
-                    <AppLoadingButton type="submit">Сохранить</AppLoadingButton>
+                <ButtonBlock >
+                    <AppLoadingButton type="submit" >Сохранить</AppLoadingButton>
                 </ButtonBlock>
             </FormWrapper>
         </Grid>
