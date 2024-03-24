@@ -1,6 +1,5 @@
 import React, { FC, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { ISingleAsset } from '../../common/types/assets'
 import { useAppDispatch, useAppSelector } from '../../utils/hook'
 import {
     Typography,
@@ -12,6 +11,8 @@ import {
 import FlexBetween from '../../components/flex-between'
 import { useStyles } from './styles'
 import { createWatchListRecord } from '../../store/thunks/assets'
+import { IAssetsService } from 'common/types/service'
+import { getService } from 'store/thunks/service'
 
 const SingleAssetPage: FC = (): JSX.Element => {
     const [open, setOpen] = useState(false)
@@ -22,42 +23,44 @@ const SingleAssetPage: FC = (): JSX.Element => {
     const { Root,  CardButton, CardButtonBlock, TrendDown, TrendUp, AssetPriceDetail, AssetPrice, CardTitle, AssetSymbol, AssetIcon, CardItem, Card, AssetName } = useStyles(theme)
     const { id } = useParams()
     const dispatch = useAppDispatch()
-    const assetsArray: ISingleAsset[] = useAppSelector(
-        (state) => state.assets.assets,
+    const assetsArray: IAssetsService[] = useAppSelector(
+        (state) => state.service.service,
     )
 
     const asset = assetsArray.find((element) => element.name === (id as string))
 
-    const handleCreateRecord = () => {
-        try {
-            const data = {
-                name: '',
-                assetId: '',
-            }
-            if (asset) {
-                data.name = asset.name
-                data.assetId = asset.id
-            }
-            dispatch(createWatchListRecord(data))
-            setError(false)
-            setSeverity('success')
-            setOpen(true)
-            setTimeout(() => {
-                setOpen(false)
-            }, 2000)
-        } catch (e) {
-            setError(true)
-            setSeverity('error')
-            setOpen(true)
-            setTimeout(() => {
-                setOpen(false)
-            }, 2000)
-        }
-    }
+    // const handleCreateRecord = () => {
+    //     try {
+    //         const data = {
+    //             name: '',
+    //             description: '',
+    //         }
+    //         if (asset) {
+    //             data.name = asset.name
+    //             data.description = asset.description
+    //         }
+    //         dispatch(getService(service.data))
+    //         setError(false)
+    //         setSeverity('success')
+    //         setOpen(true)
+    //         setTimeout(() => {
+    //             setOpen(false)
+    //         }, 2000)
+    //     } catch (e) {
+    //         setError(true)
+    //         setSeverity('error')
+    //         setOpen(true)
+    //         setTimeout(() => {
+    //             setOpen(false)
+    //         }, 2000)
+    //     }
+    // }
 
     return (
         <>
-            {asset && (
+
+        single assets
+            {/* {asset && (
                 <Root container>
                     <AssetName item xs={12} >
                         <Typography variant="h1">{asset.name}</Typography>
@@ -165,7 +168,7 @@ const SingleAssetPage: FC = (): JSX.Element => {
                         </Alert>
                     </Snackbar>
                 </Root>
-            )}
+            )} */}
         </>
     )
 }

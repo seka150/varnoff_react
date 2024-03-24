@@ -3,6 +3,7 @@ import { authSlice } from "./slice/auth";
 import  assetSlice  from "./slice/assets";
 import watchlistSlice from "./slice/watchlist";
 import  newsSlice  from "./slice/news";
+import  serviceSlice  from "./slice/service";
 
 const store = configureStore({
     reducer: {
@@ -10,6 +11,7 @@ const store = configureStore({
         assets: assetSlice,
         watchlist : watchlistSlice,
         news: newsSlice,
+        service: serviceSlice
     }
 }) 
 

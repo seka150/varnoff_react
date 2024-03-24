@@ -18,7 +18,11 @@
     "resolveJsonModule": true,
     "isolatedModules": false,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "baseUrl": "./src",
+    "paths": {
+        "@mui/x-data-grid": ["../node_modules/@mui/x-data-grid"]
+    }
   },
   "include": [
     "src",

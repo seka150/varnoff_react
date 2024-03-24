@@ -7,7 +7,8 @@ export const useStyled = (theme: Theme) => {
 
     const Root = styled(Box)({
         flexGrow: 1,
-        padding: '32px'
+        padding: '32px 32px 0px 32px',
+
     });
 
     const TopCardItem = styled(Box)({

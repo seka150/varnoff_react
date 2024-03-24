@@ -7,21 +7,18 @@ import AreaChartComponent from "../../components/charts/area-chart";
 import TrendUp from '../../assets/img/home/trend-up.svg'
 import TrendDown from '../../assets/img/home/trend-down.svg'
 import LineChartComponent from "../../components/charts/line-chart";
-import { IChartData, ISingleAsset } from "../../common/types/assets";
-import TopPriceComponent from "../../components/top-price";
+import { IChartData } from "../../common/types/assets";
+import ServicePage from "pages/service";
 
 
 const HomePage: FC = (): JSX.Element => {
     const favoriteAssets: IChartData[] = useAppSelector(
         (state) => state.assets.favoriteAssets,
     )
-    const assetsArray: ISingleAsset[] = useAppSelector(
-        (state) => state.assets.assets,
-    )
     const dispatch = useAppDispatch()
     const fetchDataRef = useRef(false)
     const theme = useTheme()
-    const { Root, TopCardItem, AssetName, ItemDetails, CardPrice, PriceTrend, PriceUp, PriceDown, LineChartBlock, AreaChartBlock, TopPriceRoot} = useStyled(theme)
+    const { Root, TopCardItem, AssetName, ItemDetails, CardPrice, PriceTrend, PriceUp, PriceDown, LineChartBlock, AreaChartBlock} = useStyled(theme)
 
     const favoriteAssetName = useMemo(() => ['bitcoin', 'ethereum'], [])
 
@@ -32,9 +29,6 @@ const HomePage: FC = (): JSX.Element => {
         )
     }, [favoriteAssets])
 
-    const filteredAssetArray = assetsArray
-        .slice()
-        .sort((a, b) => b.current_price - a.current_price)
 
     const fetchData = useCallback(
         (data: string[]) => {
@@ -94,7 +88,8 @@ const HomePage: FC = (): JSX.Element => {
 
 
     return(
-        <Root>
+        <>
+            <Root>
             <AreaChartBlock>
                 <Grid container spacing={2}>
                     {renderFavoriteBlock}
@@ -107,12 +102,11 @@ const HomePage: FC = (): JSX.Element => {
                     </Grid>
                 </Grid>
             </LineChartBlock>
-            <TopPriceRoot container>
-                <Grid item lg={12} md={12} xs={12}>
-                    {filteredAssetArray.length && <TopPriceComponent assets={filteredAssetArray.slice(0, 6)}/>}
-                </Grid>
-            </TopPriceRoot>
         </Root>
+        <Grid item lg={12} md={12} xs={12}>
+            <ServicePage/>
+        </Grid>
+        </>
     )
 }
 
