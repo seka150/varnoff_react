@@ -8,9 +8,9 @@ import LayoutComponent from './components/layout';
 import WatchlistPage from './pages/watchlist';
 import NewsPage from './pages/news';
 import SettingsPage from './pages/settings';
-import SingleAssetPage from "./pages/single-asset";
 import ServicePage from "./pages/service";
 import AdminPanelPage from "./pages/admin";
+import SingleAssetPage from "pages/single-asset";
 
 function App() {
   const [theme, colorMode] = useMode()
