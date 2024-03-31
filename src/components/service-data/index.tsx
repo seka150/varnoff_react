@@ -33,7 +33,7 @@ const ServiceDataComponent = (props: ISingleAssetsService) => {
         },
     ];
 
-    console.log(serviceWithIds)
+
 
     return (
         <div style={{ height: 400, width: '100%' }}>

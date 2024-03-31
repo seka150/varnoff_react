@@ -1,4 +1,4 @@
-import {HomeOutlined, AutoGraphOutlined, MenuBookOutlined, SettingsOutlined, WorkOutline} from '@mui/icons-material';
+import {HomeOutlined, AutoGraphOutlined, MenuBookOutlined, SettingsOutlined, WorkOutline, AdminPanelSettings} from '@mui/icons-material';
 
 export const navMenu =[
     {
@@ -27,7 +27,7 @@ export const navMenu =[
     },
     {
         name: 'Админ',
-        icon: <MenuBookOutlined/>,
+        icon: <AdminPanelSettings/>,
         path: '/admin',
         id: 3
     },

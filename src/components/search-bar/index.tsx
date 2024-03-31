@@ -6,43 +6,47 @@ import { IAssetsService } from "common/types/service";
 import { getService } from "store/thunks/service";
 
 const SearchBarComponent: FC = (): JSX.Element => {
-    const [selectedItem, setSelectedItem] = useState<string | null>('')
-    const navigate = useNavigate()
+    const [selectedItem, setSelectedItem] = useState<IAssetsService | null>(null);
+    const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const serviceArray: IAssetsService[] = useAppSelector(
         (state) => state.service.service
-    )
+    );
 
     useEffect(() => {
         dispatch(getService());
     }, [dispatch]);
 
-    const serviceArrayMap = Object.values(serviceArray); 
+    const handleSelectItem = (e: any, value: { name: string; url: string; } | null) => {
+        if (value) {
+            navigate(`single/${value.url}`, { state: { url: value.url } });
+            setSelectedItem(null); 
+        }
+    };
 
+    const serviceArrayMap = Object.values(serviceArray); 
     const flatServiceArray = serviceArrayMap.flat();
-    
     const serviceWithIds = flatServiceArray.map((serviceArray) => ({
         name: serviceArray.name,
+        url: serviceArray.url // Добавим свойство 'url'
     }));
 
-    
-    console.log(serviceArray)
-    return(
+    return (
         <Stack spacing={2} sx={{width: 300}}>
             <Autocomplete 
-            value={selectedItem}
-            onChange={(e: any, value: string | null ) => { navigate(`single/${value}`)
-            setSelectedItem(null)
-        }}
-            renderInput={(element) => (
-                <TextField {...element} label="Поиск" InputProps={{
-                    ...element.InputProps,
-                    type: 'search'
-                }} />
-            )} 
-            options={serviceWithIds.map((element: {name: string}) => element.name)}/>
+                value={selectedItem}
+                onChange={handleSelectItem}
+                renderInput={(element) => (
+                    <TextField {...element} label="Поиск" InputProps={{
+                        ...element.InputProps,
+                        type: 'search'
+                    }} />
+                )} 
+                options={serviceWithIds} // Используем обновленные опции
+                getOptionLabel={(option) => option.name} 
+            />
         </Stack>
     )
 }
 
-export default SearchBarComponent
+export default SearchBarComponent;

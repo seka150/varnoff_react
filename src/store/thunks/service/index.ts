@@ -6,7 +6,7 @@ export const getService = createAsyncThunk<ISingleAssetsService[], void, { rejec
     'get-service', 
     async (_, {rejectWithValue}) => {
         try {
-            const service = await instanceAuth.get('service/get')
+            const service = await instanceAuth.get('/service/get')
             return service.data
         } catch (error: any) {
             if (error.response && error.response.data.message) {
