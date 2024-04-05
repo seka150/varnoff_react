@@ -11,30 +11,30 @@ export const navMenu =[
         name: 'Услуги',
         icon: <WorkOutline/>,
         path: '/service',
-        id: 1
+        id: 2
     },
     {
         name: 'Изранное',
         icon: <AutoGraphOutlined/>,
         path: '/watchlist',
-        id: 2
+        id: 3
     },
     {
         name: 'Новости',
         icon: <MenuBookOutlined/>,
         path: '/news',
-        id: 3
+        id: 4
     },
     {
         name: 'Админ',
         icon: <AdminPanelSettings/>,
         path: '/admin',
-        id: 3
+        id: 5
     },
     {
         name: 'Настройки',
         icon: <SettingsOutlined/>,
         path: '/settings',
-        id: 4
+        id: 6
     }
 ]

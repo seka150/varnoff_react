@@ -2,9 +2,9 @@ import React, { FC, useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from '../../utils/hook'
 import { getWathclistElements } from '../../store/thunks/watchlist'
 import { getTopPriceData } from '../../store/thunks/assets'
-import AssetsTableComponent from '../../components/assets-table'
 import {  useTheme } from '@mui/material'
 import { useStyled } from './styles'
+import AssetsTableComponent from 'components/asset-table'
 
 const WatchlistPage: FC = (): JSX.Element => {
     const theme = useTheme()
