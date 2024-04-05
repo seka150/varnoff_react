@@ -10,8 +10,11 @@ interface FetchDataParams {
 export const getSingleAssets = createAsyncThunk(
     'singleAssets/get',
     async ({ url, otherParams }: FetchDataParams, { rejectWithValue }) => {
+        const requestUrl = `/service/${url}/get`;
+        console.log('Request URL:', requestUrl); // Выводим URL в консоль перед отправкой запроса
+
         try {
-            const response = await instanceAuth.get(`/service/${url}/get`, { params: otherParams });
+            const response = await instanceAuth.get(requestUrl, { params: otherParams });
             return response.data;
         } catch (error: any) {
             if (error.response && error.response.data.message) {
