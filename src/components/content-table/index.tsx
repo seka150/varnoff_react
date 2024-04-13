@@ -14,6 +14,7 @@ const ContentComponent = () => {
     const serviceArray: IAssetsService[] = useAppSelector((state) => state.service.service);
     const [columns, setColumns] = useState<GridColDef[]>([]);
     const [rows, setRows] = useState<GridRowModel[]>([]);
+    const [serviceId, setServiceId] = useState<(number | undefined)[]>([]);
 
 
     const handleServiceSelect = async (selectedService: IAssetsService) => {
@@ -25,16 +26,23 @@ const ContentComponent = () => {
     
             setSelectedService(selectedService);
             const services = data.payload.services;
+
+            const serviceIds = services.map((service: any) => service.serviceId);
+        
             const columns: GridColDef[] = Object.keys(services[0]).map((field) => ({
                 field: field,
                 headerName: translations[field] ?? field,
+                editMode: "row" ,
+                editable: true
             }));
     
             const rows: GridRowModel[] = services.map((service: any, index: number) => ({
                 id: index + 1, 
-                ...service
+                ...service,
+                editMode: "row" ,
+                editable: true
             }));
-    
+            setServiceId(serviceIds)
             setColumns(columns);
             setRows(rows);
         } catch (error) {
@@ -55,6 +63,7 @@ const ContentComponent = () => {
                     columns={columns}
                     rows={rows}
                     setRows={setRows}
+                    serviceId={serviceId}
                 />
             </Grid>
         </Grid>

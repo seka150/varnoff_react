@@ -11,8 +11,7 @@ export const getSingleAssets = createAsyncThunk(
     'singleAssets/get',
     async ({ url, otherParams }: FetchDataParams, { rejectWithValue }) => {
         const requestUrl = `/service/${url}/get`;
-        console.log('Request URL:', requestUrl); // Выводим URL в консоль перед отправкой запроса
-
+        console.log('Request URL:', requestUrl);
         try {
             const response = await instanceAuth.get(requestUrl, { params: otherParams });
             return response.data;
@@ -27,13 +26,20 @@ export const getSingleAssets = createAsyncThunk(
 );
 
 
-export const addAsset = createAsyncThunk(
-    'assets/add',
+
+export const postAsset = createAsyncThunk(
+    'assets/post',
     async (assetData: FetchDataParams, { rejectWithValue }) => {
-        const { url, otherParams } = assetData; // Деструктурируем параметры
+        const { url, otherParams } = assetData;
+        console.log("Request data:", assetData);
+
+        if (!otherParams) {
+            throw new Error('Не все параметры были переданы');
+        }
+        
         try {
-            const response = await instanceAuth.post(`/service/${url}/post`, otherParams); // Используем otherParams
-            return response.data;
+            const response = await instanceAuth.post(`/service/${url}/create`, otherParams);
+            return response.data; 
         } catch (error: any) {
             if (error.response && error.response.data.message) {
                 return rejectWithValue(error.response.data.message);
@@ -44,10 +50,35 @@ export const addAsset = createAsyncThunk(
     }
 );
 
+// export const updateAsset = createAsyncThunk(
+//     'assets/update',
+//     async (assetData: FetchDataParams, { rejectWithValue }) => {
+//         const {id, url, otherParams } = assetData;
+//         console.log("Request data:", assetData);
+
+//         if (!otherParams) {
+//             throw new Error('Не все параметры были переданы');
+//         }
+        
+//         try {
+//             const response = await instanceAuth.put(`/service/${url}/update:${id}`, otherParams);
+//             return response.data; 
+//         } catch (error: any) {
+//             if (error.response && error.response.data.message) {
+//                 return rejectWithValue(error.response.data.message);
+//             } else {
+//                 return rejectWithValue(error.message);
+//             }
+//         }
+//     }
+// );
+
+
+
 
 export const deleteAssets = createAsyncThunk(
     'assets/delete',
-    async ({ id, url }: { id: string; url: string }, { rejectWithValue }) => {
+    async ({ id, url }: { id: number; url: string }, { rejectWithValue }) => {
         try {
             await instanceAuth.delete(`/service/${url}/delete/${id}`);
             return id; 
