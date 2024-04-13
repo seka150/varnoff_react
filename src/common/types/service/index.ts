@@ -3,7 +3,7 @@ export interface IAssetsService {
     description: string;
     price: number;
     url: string;
-    otherParams: any;
+    otherParams: any
 }
 
 export interface ISingleAssetsService {
