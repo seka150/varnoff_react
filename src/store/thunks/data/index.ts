@@ -6,6 +6,13 @@ interface FetchDataParams {
     otherParams: any; 
 }
 
+interface FetchDataParamsId {
+    id: number | undefined;
+    url: string;
+    otherParams: any; 
+
+}
+
 
 export const getSingleAssets = createAsyncThunk(
     'singleAssets/get',
@@ -50,31 +57,29 @@ export const postAsset = createAsyncThunk(
     }
 );
 
-// export const updateAsset = createAsyncThunk(
-//     'assets/update',
-//     async (assetData: FetchDataParams, { rejectWithValue }) => {
-//         const {id, url, otherParams } = assetData;
-//         console.log("Request data:", assetData);
-
-//         if (!otherParams) {
-//             throw new Error('Не все параметры были переданы');
-//         }
+export const updateAsset = createAsyncThunk(
+    'assets/update',
+    async (assetData: FetchDataParamsId, { rejectWithValue }) => {
+        const { id, url, otherParams } = assetData;
         
-//         try {
-//             const response = await instanceAuth.put(`/service/${url}/update:${id}`, otherParams);
-//             return response.data; 
-//         } catch (error: any) {
-//             if (error.response && error.response.data.message) {
-//                 return rejectWithValue(error.response.data.message);
-//             } else {
-//                 return rejectWithValue(error.message);
-//             }
-//         }
-//     }
-// );
-
-
-
+        try {
+            const requestData: any = {};
+            for (const key in otherParams) {
+                if (Object.prototype.hasOwnProperty.call(otherParams, key)) {
+                    requestData[key] = otherParams[key];
+                }
+            }
+            const response = await instanceAuth.patch(`/service/${url}/update/${id}`, requestData);
+            return response.data; 
+        } catch (error: any) {
+            if (error.response && error.response.data.message) {
+                return rejectWithValue(error.response.data.message);
+            } else {
+                return rejectWithValue(error.message);
+            }
+        }
+    }
+);
 
 export const deleteAssets = createAsyncThunk(
     'assets/delete',
