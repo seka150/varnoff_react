@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { DataGrid, GridRowModes, GridRowModesModel, GridSlots, GridToolbarContainer } from "@mui/x-data-grid";
+import { DataGrid, GridRowId, GridRowModes, GridRowModesModel, GridSlots, GridToolbarContainer } from "@mui/x-data-grid";
 import { Button, TextField } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
@@ -7,7 +7,7 @@ import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Close';
 import { EditToolbarProps, UpdateTableProps } from "common/types/data";
-import { postAsset } from "store/thunks/data";
+import { deleteAssets, postAsset, updateAsset } from "store/thunks/data";
 import { useAppDispatch } from "utils/hook";
 
 
@@ -15,9 +15,47 @@ const UpdateTableComponent: React.FC<UpdateTableProps> = ({ columns, rows, getSi
     const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({});
     const [addedRows, setAddedRows] = useState<any[]>([]);
     const [formData, setFormData] = useState<{ [key: string]: string | number }>({});
-
+    const [selectedIds, setSelectedIds] = useState<string[]>([]);
     const dispatch = useAppDispatch()
 
+    console.log(selectedIds)
+
+    const handleSelectionChange = (newSelection: GridRowId[]) => {
+        setSelectedIds(newSelection.map(String)); 
+        const updatedRowModesModel: GridRowModesModel = {};
+        newSelection.forEach(id => {
+            updatedRowModesModel[id] = { mode: GridRowModes.Edit, fieldToFocus: columns[0].field };
+        });
+        setRowModesModel(updatedRowModesModel);
+    };
+
+    const handleEditClick = async () => {
+        try {
+            if (selectedIds.length === 0) {
+                console.log("Выберите ряды для редактирования");
+                return;
+            }
+            
+            const assetsToUpdate = rows.filter(row => selectedIds.includes(row.id.toString()));
+    
+            const modifiedAssets = assetsToUpdate.map(asset => {
+                const { editMode, editable, ...updatedAsset } = asset;
+                return updatedAsset;
+            });
+    
+            await Promise.all(modifiedAssets.map(asset => {
+                return dispatch(updateAsset({ id: asset.id, url: `${selectedService?.url}`, otherParams: asset }));
+            }));
+
+            setRows(rows => [...rows]); 
+    
+            console.log("Редактирование данных:", selectedIds);
+        } catch (error) {
+            console.error("Ошибка при редактировании данных:", error);
+        }
+    };
+    
+    
     const EditToolbar = (props: EditToolbarProps) => {
         const { setRowModesModel } = props;
 
@@ -42,8 +80,6 @@ const UpdateTableComponent: React.FC<UpdateTableProps> = ({ columns, rows, getSi
         const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>, fieldName: string) => {
             const { value } = e.target;
             const numericValue = !isNaN(parseFloat(value)) ? parseFloat(value) : value;
-            console.log('Field Name:', fieldName);
-            console.log('Value:', numericValue);
             setFormData(prevFormData => ({
                 ...prevFormData,
                 [fieldName]: numericValue
@@ -52,15 +88,11 @@ const UpdateTableComponent: React.FC<UpdateTableProps> = ({ columns, rows, getSi
 
         const handleSaveClick = async (e: any) => {
             e.preventDefault();
-            try {
-                console.log("Form data:", formData);
-        
+            try {        
                 const requestData = {
                     url: `${selectedService?.url}`,
                     otherParams: formData
                 };
-        
-                console.log("Sending request with data:", requestData);
                 
                 await dispatch(postAsset(requestData));
                 
@@ -69,27 +101,45 @@ const UpdateTableComponent: React.FC<UpdateTableProps> = ({ columns, rows, getSi
                 console.error("Ошибка при сохранении данных на сервере:", error);
             }
         };
-        
+
         const handleDeleteClick = () => {
-            const selectedIds = Object.keys(rowModesModel);
-            const newRows = rows.filter(row => !selectedIds.includes(row.id.toString()));
-            setRows(() => newRows);
-            setRowModesModel((oldModel) => {
-                const newModel = { ...oldModel };
+            try {
+                console.log("Selected IDs for deletion:", selectedIds);
+        
                 selectedIds.forEach(id => {
-                    delete newModel[id];
+                    dispatch(deleteAssets({ id: parseInt(id), url: `${selectedService?.url}` }))
+                        .then(() => {
+                            console.log(`Row with ID ${id} deleted successfully from the server.`);
+                        })
+                        .catch((error) => {
+                            console.error(`Failed to delete row with ID ${id} from the server:`, error);
+                        });
                 });
-                return newModel;
-            });
+        
+                const newRows = rows.filter(row => !selectedIds.includes(row.id.toString()));
+                console.log("New rows after deletion:", newRows);
+        
+                setRows((oldRows) => newRows);
+                setRowModesModel((oldModel) => {
+                    const newModel = { ...oldModel };
+                    selectedIds.forEach(id => {
+                        delete newModel[id];
+                    });
+                    console.log("Updated row modes model after deletion:", newModel);
+                    return newModel;
+                });
+            } catch (error) {
+                console.error("Error occurred while deleting rows:", error);
+            }
         };
 
-        const handleCanelClick = async () => {
-            
-        }
-
-        const handleEditClick = async () => {
-            
-        }
+        const handleCancelClick = async () => {
+            try {
+                setFormData({});
+            } catch (error) {
+                console.error("Ошибка при отмене редактирования:", error);
+            }
+        };
 
         return (
             <GridToolbarContainer>
@@ -104,11 +154,12 @@ const UpdateTableComponent: React.FC<UpdateTableProps> = ({ columns, rows, getSi
                 <Button color="secondary" startIcon={<AddIcon />} onClick={handleAddClick}/>
                 <Button color="secondary" startIcon={<DeleteIcon />} onClick={handleDeleteClick}/>
                 <Button color="secondary" startIcon={<SaveIcon />} onClick={handleSaveClick}/>
-                <Button color="secondary" startIcon={<CancelIcon />} onClick={handleCanelClick}/>
+                <Button color="secondary" startIcon={<CancelIcon />} onClick={handleCancelClick}/>
                 <Button color="secondary" startIcon={<EditIcon />} onClick={handleEditClick}/>
             </GridToolbarContainer>
         );
     };
+
 
     return (
         <div style={{ height: 'auto', width: '100%' }}>
@@ -118,6 +169,8 @@ const UpdateTableComponent: React.FC<UpdateTableProps> = ({ columns, rows, getSi
                 editMode="row" 
                 autoHeight
                 rowModesModel={rowModesModel}
+                checkboxSelection
+                onRowSelectionModelChange={handleSelectionChange}
                 slots={{
                     toolbar: EditToolbar as GridSlots['toolbar'],
                 }}
@@ -126,7 +179,7 @@ const UpdateTableComponent: React.FC<UpdateTableProps> = ({ columns, rows, getSi
                 }}
             />
         </div>
-    );
-};
+    )
+}
 
 export default UpdateTableComponent;
