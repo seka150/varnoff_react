@@ -18,8 +18,6 @@ const UpdateTableComponent: React.FC<UpdateTableProps> = ({ columns, rows, getSi
     const [selectedIds, setSelectedIds] = useState<string[]>([]);
     const dispatch = useAppDispatch()
 
-    console.log(selectedIds)
-
     const handleSelectionChange = (newSelection: GridRowId[]) => {
         setSelectedIds(newSelection.map(String)); 
         const updatedRowModesModel: GridRowModesModel = {};

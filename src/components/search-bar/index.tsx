@@ -28,7 +28,7 @@ const SearchBarComponent: FC = (): JSX.Element => {
     const flatServiceArray = serviceArrayMap.flat();
     const serviceWithIds = flatServiceArray.map((serviceArray) => ({
         name: serviceArray.name,
-        url: serviceArray.url // Добавим свойство 'url'
+        url: serviceArray.url 
     }));
 
     return (
@@ -42,7 +42,7 @@ const SearchBarComponent: FC = (): JSX.Element => {
                         type: 'search'
                     }} />
                 )} 
-                options={serviceWithIds} // Используем обновленные опции
+                options={serviceWithIds} 
                 getOptionLabel={(option) => option.name} 
             />
         </Stack>
