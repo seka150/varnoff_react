@@ -4,7 +4,7 @@ import { Outlet, useLocation } from "react-router-dom";
 import {useMediaQuery } from "@mui/material";
 import SidebarComponent from "../sidebar";
 import { RootContainer, MainSectionContainer } from "./styles";
-import { useAppDispatch } from "../../utils/hook";
+import { useAppDispatch, useAppSelector } from "../../utils/hook";
 import { getPublicUser } from "../../store/thunks/auth";
 
 const LayoutComponent: FC = (): JSX.Element => {
@@ -14,8 +14,12 @@ const LayoutComponent: FC = (): JSX.Element => {
     const isNonMobile = useMediaQuery('(min-width:760px)');
 
     useEffect(() => {
-        dispatch(getPublicUser())
-    }, [dispatch])
+        dispatch(getPublicUser());
+    }, [dispatch]);
+
+    const { user } = useAppSelector(state => state.auth.user);
+
+    if (!user) return <div>Loading...</div>;
 
     return (
         location.pathname === '/login' || location.pathname === '/register' ? (
@@ -25,7 +29,7 @@ const LayoutComponent: FC = (): JSX.Element => {
         ) : (
             <>
                 <RootContainer>
-                    <SidebarComponent isNonMobile={isNonMobile} drawerWidth='250px' isOpen={isOpen} setIsOpen={setIsOpen} />
+                    <SidebarComponent user={user} isNonMobile={isNonMobile} drawerWidth='250px' isOpen={isOpen} setIsOpen={setIsOpen} />
                     <MainSectionContainer>
                         <TopBarComponent isOpen={isOpen} setIsOpen={setIsOpen} isNonMobile={isNonMobile} />
                         <Outlet />

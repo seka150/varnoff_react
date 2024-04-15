@@ -36,7 +36,13 @@ export interface IPublicUser {
     email: string
     createdAt: string
     updatedAt: string
+    role: UserRole
     watchlist: [IWatchlist]
+}
+
+export enum UserRole {
+    ADMIN = 'admin',
+    USER = 'user',
 }
 
 interface IWatchlist {

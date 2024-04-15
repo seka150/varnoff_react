@@ -1,24 +1,24 @@
 import { FC, useEffect, useState } from 'react';
 import { useStyled } from './styles';
-import {Box, Drawer, IconButton, List, ListItem, ListItemIcon, ListItemText, Typography, useTheme} from '@mui/material';
-import {ChevronLeftOutlined, LogoutOutlined} from '@mui/icons-material';
+import { Box, Drawer, IconButton, List, ListItem, ListItemIcon, ListItemText, Typography, useTheme } from '@mui/material';
+import { ChevronLeftOutlined, LogoutOutlined } from '@mui/icons-material';
 import { useLocation, useNavigate } from 'react-router-dom';
 import FlexBetweenComponent from '../flex-between';
 import { navMenu } from '../../common/moks/navigate';
 import { tokens } from '../../theme';
-import logo from '../../assets/img/sidebar/logo.svg'
+import logo from '../../assets/img/sidebar/logo.svg';
 import { ISidebarProps } from '../../common/types/sidebar';
 import ThemeSwitcherComponent from '../theme-switcher';
 import SearchBarComponent from '../search-bar';
 
 const SidebarComponent: FC<ISidebarProps> = (props: ISidebarProps): JSX.Element => {
-    const [active, setActive] = useState('')
-    const {isNonMobile, drawerWidth, isOpen, setIsOpen} = props
-    const {pathname} = useLocation()
-    const navigate = useNavigate()
-    const theme = useTheme()
-    const colors = tokens(theme.palette.mode)
-    const {Brand, NavItemButton, NavBlock, NavList} = useStyled(theme)
+    const [active, setActive] = useState('');
+    const { isNonMobile, drawerWidth, isOpen, setIsOpen, user} = props; 
+    const { pathname } = useLocation();
+    const navigate = useNavigate();
+    const theme = useTheme();
+    const colors = tokens(theme.palette.mode);
+    const { Brand, NavItemButton, NavBlock, NavList } = useStyled(theme);
 
     useEffect(()=> {
         setActive(pathname)
@@ -33,20 +33,20 @@ const SidebarComponent: FC<ISidebarProps> = (props: ISidebarProps): JSX.Element 
     return (
         <Box component='nav'>
             {isOpen && (
-                <Drawer 
-                open={isOpen}
-                onClose={()=> setIsOpen(false)}
-                variant='persistent'
-                anchor='left'
-                sx={{
-                    width: drawerWidth,
-                    '& .MuiDrawer-paper': {
-                        color: theme.palette.secondary.main,
-                        backgroundColor : theme.palette.primary.main,
-                        boxSizing: 'border-box',
-                        width: drawerWidth
-                    }
-                }}
+                <Drawer
+                    open={isOpen}
+                    onClose={() => setIsOpen(false)}
+                    variant='persistent'
+                    anchor='left'
+                    sx={{
+                        width: drawerWidth,
+                        '& .MuiDrawer-paper': {
+                            color: theme.palette.secondary.main,
+                            backgroundColor: theme.palette.primary.main,
+                            boxSizing: 'border-box',
+                            width: drawerWidth
+                        }
+                    }}
                 >
                     <NavBlock>
                         <Box>
@@ -56,36 +56,42 @@ const SidebarComponent: FC<ISidebarProps> = (props: ISidebarProps): JSX.Element 
                                     <Typography variant='h1' color={theme.palette.mode === 'dark' ? colors.white.DEFAULT : colors.black.DEFAULT}>V@rnoff</Typography>
                                 </Brand>
                                 {!isNonMobile && (
-                                    <IconButton onClick={()=> setIsOpen(!isOpen)}>
-                                        <ChevronLeftOutlined/>
+                                    <IconButton onClick={() => setIsOpen(!isOpen)}>
+                                        <ChevronLeftOutlined />
                                     </IconButton>
                                 )}
                             </FlexBetweenComponent>
                         </Box>
                         {!isNonMobile && (
                             <List>
-                            <ListItem>
-                                <SearchBarComponent/>
-                            </ListItem>
-                        </List>
+                                <ListItem>
+                                    <SearchBarComponent />
+                                </ListItem>
+                            </List>
                         )}
                         <NavList>
-                            {
-                                navMenu.map((element)=> {
+                            {navMenu.map((element) => {
+                                const isAdmin = user.role === 'admin';
+                                const isVisibleForAdmin = element.visibleForRoles && element.visibleForRoles.includes(user.role);
+                                const isVisible = isAdmin || isVisibleForAdmin === undefined || isVisibleForAdmin;
+                                
+                                if (isVisible) {
                                     return (
                                         <ListItem key={element.id}>
                                             <NavItemButton className={active === element.path ? 'active' : ''} onClick={() => navigate(`${element.path}`)}>
                                                 <ListItemIcon>
                                                     {element.icon}
                                                 </ListItemIcon>
-                                            <ListItemText>
-                                                <Typography variant='body1'>{element.name}</Typography>
-                                            </ListItemText>
+                                                <ListItemText>
+                                                    <Typography variant='body1'>{element.name}</Typography>
+                                                </ListItemText>
                                             </NavItemButton>
                                         </ListItem>
-                                    )
-                                })
-                            }
+                                    );
+                                }
+
+                                return null;
+                            })}
                         </NavList>
                     </NavBlock>
                     <Box width='100%'>
@@ -93,14 +99,14 @@ const SidebarComponent: FC<ISidebarProps> = (props: ISidebarProps): JSX.Element 
                             {!isNonMobile && (
                                 <ListItem>
                                     <Box padding="5px">
-                                        <ThemeSwitcherComponent/>
+                                        <ThemeSwitcherComponent />
                                     </Box>
                                 </ListItem>
                             )}
                             <ListItem>
                                 <NavItemButton onClick={handleLogout}>
                                     <ListItemIcon>
-                                        <LogoutOutlined/>
+                                        <LogoutOutlined />
                                     </ListItemIcon>
                                     <ListItemText>
                                         <Typography>
@@ -114,7 +120,7 @@ const SidebarComponent: FC<ISidebarProps> = (props: ISidebarProps): JSX.Element 
                 </Drawer>
             )}
         </Box>
-    )
-}
+    );
+};
 
-export default SidebarComponent
+export default SidebarComponent;

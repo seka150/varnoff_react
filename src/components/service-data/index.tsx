@@ -17,7 +17,7 @@ const ServiceDataComponent = (props: ISingleAssetsService) => {
         id: index + 1,
         name: service.name,
         description: service.description,
-        price: service.price
+        price: service.price,
     }));
     
 
