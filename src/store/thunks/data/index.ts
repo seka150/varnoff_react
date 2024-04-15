@@ -18,7 +18,6 @@ export const getSingleAssets = createAsyncThunk(
     'singleAssets/get',
     async ({ url, otherParams }: FetchDataParams, { rejectWithValue }) => {
         const requestUrl = `/service/${url}/get`;
-        console.log('Request URL:', requestUrl);
         try {
             const response = await instanceAuth.get(requestUrl, { params: otherParams });
             return response.data;

@@ -14,6 +14,7 @@ const TopBarComponent: FC<ITopBarProps> = (
     const { Toolbars, Root, MenuIcon } = useStyled(theme)
     const { setIsOpen, isOpen, isNonMobile } = props
     const { user } = useAppSelector(state => state.auth.user)
+    
 
     return (
         <Root position="static">
