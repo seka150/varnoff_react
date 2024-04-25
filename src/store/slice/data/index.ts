@@ -17,7 +17,7 @@ const initialState: ServiceDataState = {
     error: null,
 };
 
-const serviceDataSlice = createSlice({
+export const serviceDataSlice = createSlice({
     name: 'serviceData',
     initialState,
     reducers: {

@@ -8,6 +8,7 @@ import ChangePasswordComponent from '../../components/change-password'
 import DeleteUserComponent from '../../components/delete-user'
 import ServiceComponent from '../../components/create-services'
 import { useLocation} from 'react-router-dom'
+import GetOrdersComponent from 'components/get-orders'
 
 
 const AdminPage = () => {
@@ -23,24 +24,24 @@ const AdminPage = () => {
         return (
         <Root>
             <TabsWrapper>
-            <Tabs value={value} onChange={handleChange} aria-label="Admin tabs" centered textColor='secondary' TabIndicatorProps={{style: {backgroundColor: colors.blue}}}> 
-                <Tab label="Контент" {...tabProps(0)} />
-                <Tab label="Основные настройки" {...tabProps(1)} />
-                <Tab label="Аналитика" {...tabProps(2)} />
-                <Tab label="Заказы" {...tabProps(3)} />
-            </Tabs>
+                <Tabs value={value} onChange={handleChange} aria-label="Admin tabs" centered textColor='secondary' TabIndicatorProps={{style: {backgroundColor: colors.blue}}}> 
+                    <Tab label="Контент" {...tabProps(0)} />
+                    <Tab label="Основные настройки" {...tabProps(1)} />
+                    <Tab label="Аналитика" {...tabProps(2)} />
+                    <Tab label="Заказы" {...tabProps(3)} />
+                </Tabs>
             </TabsWrapper>
             <TabPanel value={value} index={0}>
-            <ServiceComponent />
+                <ServiceComponent />
             </TabPanel>
             <TabPanel value={value} index={1}>
-            <ChangePasswordComponent/>
+                <ChangePasswordComponent/>
             </TabPanel>
             <TabPanel value={value} index={2}>
-            <DeleteUserComponent/>
+                <DeleteUserComponent/>
             </TabPanel>
             <TabPanel value={value} index={3}>
-            <DeleteUserComponent/>
+                <GetOrdersComponent/>
             </TabPanel>
         </Root>
         )

@@ -8,11 +8,6 @@ export const instance = axios.create({
     headers: {},
 })
 
-export const newsInstance = axios.create({
-    baseURL: 'https://min-api.cryptocompare.com/data/v2/',
-    timeout: 1000,
-})
-
 export const instanceAuth = axios.create({
     baseURL:  'http://localhost:8000',
     timeout: 1000,

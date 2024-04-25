@@ -53,19 +53,19 @@ const ContentComponent = () => {
 
     return (
         <Grid container item xs={12}>
-            <Grid container item xs={12} sx={{marginBottom: '20px'}}>
-                {serviceArray && <MenuService service={serviceArray} handleServiceSelect={handleServiceSelect} />}
-            </Grid>
-            <Grid container item xs={12}>
-                <UpdateTableComponent 
-                    selectedService={selectedService} 
-                    getSingleAssets={(params) => dispatch<any>(getSingleAssets(params))}
-                    columns={columns}
-                    rows={rows}
-                    setRows={setRows}
-                    serviceId={serviceId}
-                />
-            </Grid>
+                <Grid container item xs={12} sx={{marginBottom: '20px'}}>
+                    {serviceArray && <MenuService service={serviceArray} handleServiceSelect={handleServiceSelect} />}
+                </Grid>
+                <Grid container item xs={12}>
+                    <UpdateTableComponent 
+                        selectedService={selectedService} 
+                        getSingleAssets={(params) => dispatch<any>(getSingleAssets(params))}
+                        columns={columns}
+                        rows={rows}
+                        setRows={setRows}
+                        serviceId={serviceId}
+                    />
+                </Grid>
         </Grid>
     );
 };

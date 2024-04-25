@@ -19,7 +19,6 @@ const MenuService: React.FC<MenuServiceProps> = (props) => {
                 console.error("URL не может быть пустым");
                 return;
             }
-            console.log("Clicked URL:", item.url);
             handleServiceSelect(item);
         } catch (error) {
             console.error("Ошибка при вызове handleServiceSelect:", error);

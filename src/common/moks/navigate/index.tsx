@@ -20,9 +20,9 @@ export const navMenu =[
         id: 3
     },
     {
-        name: 'Портфолио',
+        name: 'Наша компания',
         icon: <MenuBookOutlined/>,
-        path: '/news',
+        path: '/about',
         id: 4
     },
     {

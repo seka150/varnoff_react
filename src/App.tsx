@@ -6,11 +6,12 @@ import { ColorModeContext, useMode } from './theme';
 import { ThemeProvider, CssBaseline } from '@mui/material';
 import LayoutComponent from './components/layout';
 import WatchlistPage from './pages/watchlist';
-import NewsPage from './pages/news';
 import SettingsPage from './pages/settings';
 import ServicePage from "./pages/service";
 import AdminPanelPage from "./pages/admin";
 import SingleAssetPage from "pages/single-asset";
+import CompanyPage from "pages/compony";
+
 
 function App() {
   const [theme, colorMode] = useMode()
@@ -25,7 +26,7 @@ function App() {
               <Route path='/' element={<HomePage/>}/>
               <Route path='/service' element={<ServicePage/>}/>
               <Route path='/watchlist' element={<WatchlistPage/>}/>
-              <Route path='/news' element={<NewsPage/>}/>
+              <Route path='/about' element={<CompanyPage/>}/>
               <Route path='/admin' element={<AdminPanelPage/>}/>
               <Route path='/settings' element={<SettingsPage/>}/>
               <Route path='/single/:id' element={<SingleAssetPage/>}/>
