@@ -77,7 +77,6 @@ const Order = (props: IOrderProps) => {
                 });
                 const services = data.payload.services;
                 const serviceId = services.find((service: { serviceId: number }) => service.serviceId)?.serviceId || 0;
-    
                 const response = await dispatch(createOrder({
                     serviceId: serviceId,
                     userId: user?.id,
@@ -165,3 +164,7 @@ const Order = (props: IOrderProps) => {
 }
 
 export default Order;
+function uuidv4() {
+    throw new Error("Function not implemented.");
+}
+
