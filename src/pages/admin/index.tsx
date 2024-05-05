@@ -7,14 +7,12 @@ import { useStyled } from './styles'
 import ChangePasswordComponent from '../../components/change-password'
 import DeleteUserComponent from '../../components/delete-user'
 import ServiceComponent from '../../components/create-services'
-import { useLocation} from 'react-router-dom'
 import GetOrdersComponent from 'components/get-orders'
 
 
 const AdminPage = () => {
     const [value, setValue] = useState(0)
     const theme = useTheme()
-    const { state } = useLocation();
     const colors = tokens(theme.palette.mode)
     const { Root, TabsWrapper} = useStyled(theme)
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {

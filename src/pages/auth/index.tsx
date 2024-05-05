@@ -62,16 +62,11 @@ function AuthRootPage(): JSX.Element {
         <Root>
             <Form onSubmit={handleSubmit(handleSubmitForm)}>
                 <Boxing>
-                    {location.pathname === '/login'
-                        ? <LoginPage register={register} errors={errors} navigate={navigate} loading={loading} />
-                        : location.pathname === '/register'
-                            ? <RegisterPage
-                                navigate={navigate}
-                                register={register}
-                                errors={errors}
-                                loading={loading} />
-                            : null}
-
+                    {location.pathname === '/login' ? (
+                        <LoginPage register={register} errors={errors} navigate={navigate} loading={loading} />
+                    ) : location.pathname === '/register' ? (
+                        <RegisterPage navigate={navigate} register={register} errors={errors} loading={loading} />
+                    ) : null}
                 </Boxing>
             </Form>
         </Root>
