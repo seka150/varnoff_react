@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Autocomplete, Box, Button, TextField, Typography, useTheme } from "@mui/material";
+import { Alert, AlertColor, Autocomplete, Box, Button, Snackbar, TextField, Typography, useTheme } from "@mui/material";
 import { IAssetsService } from "common/types/service";
 import { useStyled } from "./slyles";
 import SendIcon from '@mui/icons-material/Send';
@@ -26,6 +26,9 @@ const Order = (props: IOrderProps) => {
     const [columns, setColumns] = useState<GridColDef[]>([]);
     const [rows, setRows] = useState<GridRowModel[]>([]);
     const { user } = useAppSelector(state => state.auth.user)
+    const [open, setOpen] = useState(false)
+    const [error, setError] = useState(false)
+    const [severity, setSeverity] = useState<AlertColor>('success')
 
 
     const flatServiceArray = serviceArray.flat();
@@ -68,30 +71,68 @@ const Order = (props: IOrderProps) => {
     };
 
     const handleSendClick = async () => {
-        const selectedServiceData = serviceWithIds.find(service => service.name === selectedService);
+        // Проверка наличия выбранной услуги
+        if (!selectedService) {
+            setError(true);
+            setSeverity('error');
+            setOpen(true);
+            setTimeout(() => {
+                setOpen(false);
+            }, 2000);
+            return; // Прерываем выполнение функции, если услуга не выбрана
+        }
+    
+        // Проверка заполненности названия заказа и описания
+        if (!orderTitle || !orderDescription) {
+            setError(true);
+            setSeverity('error');
+            setOpen(true);
+            setTimeout(() => {
+                setOpen(false);
+            }, 2000);
+            return; // Прерываем выполнение функции, если не все данные заполнены
+        }
+    
+        const selectedServiceData = serviceWithIds.find((service) => service.name === selectedService);
         if (selectedServiceData && selectedServiceData.url) {
             try {
                 const data = await getSingleAssets({
                     url: selectedServiceData.url,
-                    otherParams: {}
+                    otherParams: {},
                 });
                 const services = data.payload.services;
-                const serviceId = services.find((service: { serviceId: number }) => service.serviceId)?.serviceId || 0;
-                const response = await dispatch(createOrder({
-                    serviceId: serviceId,
-                    userId: user?.id,
-                    title: orderTitle,
-                    description: orderDescription,
-                    statusId: statusId
-                }));
+                const serviceId =
+                    services.find((service: { serviceId: number }) => service.serviceId)?.serviceId || 0;
+                const response = await dispatch(
+                    createOrder({
+                        serviceId: serviceId,
+                        userId: user?.id,
+                        title: orderTitle,
+                        description: orderDescription,
+                        statusId: statusId,
+                    })
+                );
     
                 const orderId = response.payload;
                 console.log("Заказ успешно создан. ID заказа:", orderId);
+                setError(false);
+                setSeverity('success');
+                setOpen(true);
+                setTimeout(() => {
+                    setOpen(false);
+                }, 2000);
             } catch (error) {
                 console.error("Ошибка при отправке заказа:", error);
+                setError(true);
+                setSeverity('error');
+                setOpen(true);
+                setTimeout(() => {
+                    setOpen(false);
+                }, 2000);
             }
         }
-    }
+    };
+    
     
 
 
@@ -159,12 +200,14 @@ const Order = (props: IOrderProps) => {
                     </Button>
                 </Buttons>
             </Box>
+            <Snackbar open={open} autoHideDuration={6000}>
+                <Alert severity={severity} sx={{ width: '100%' }}>
+                    {!error ? 'Success!' : 'Ooops'}
+                </Alert>
+            </Snackbar>
         </Root>
     );
 }
 
 export default Order;
-function uuidv4() {
-    throw new Error("Function not implemented.");
-}
 

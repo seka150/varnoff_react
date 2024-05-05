@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { DataGrid, GridRowId, GridRowModes, GridRowModesModel, GridSlots, GridToolbarContainer } from "@mui/x-data-grid";
-import { Button, TextField } from "@mui/material";
+import { Alert, AlertColor, Button, Snackbar, TextField } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
@@ -17,6 +17,9 @@ const UpdateTableComponent: React.FC<UpdateTableProps> = ({ columns, rows, getSi
     const [formData, setFormData] = useState<{ [key: string]: string | number }>({});
     const [selectedIds, setSelectedIds] = useState<string[]>([]);
     const dispatch = useAppDispatch()
+    const [open, setOpen] = useState(false)
+    const [error, setError] = useState(false)
+    const [severity, setSeverity] = useState<AlertColor>('success')
 
     const handleSelectionChange = (newSelection: GridRowId[]) => {
         setSelectedIds(newSelection.map(String)); 
@@ -86,20 +89,38 @@ const UpdateTableComponent: React.FC<UpdateTableProps> = ({ columns, rows, getSi
 
         const handleSaveClick = async (e: any) => {
             e.preventDefault();
-            try {        
+            try {
+                // Проверяем, заполнены ли данные перед сохранением
+                const formDataValues = Object.values(formData);
+                if (formDataValues.some(value => value === '' || value === null)) {
+                    throw new Error('Данные не заполнены');
+                }
+        
                 const requestData = {
                     url: `${selectedService?.url}`,
                     otherParams: formData
                 };
                 
                 await dispatch(postAsset(requestData));
-                
-                console.log("Данные успешно сохранены на сервере!");
+        
+                setError(false);
+                setSeverity('success');
+                setOpen(true);
+                setTimeout(() => {
+                    setOpen(false);
+                }, 2000);
             } catch (error) {
                 console.error("Ошибка при сохранении данных на сервере:", error);
+                setError(true);
+                setSeverity('error');
+                setOpen(true);
+                setTimeout(() => {
+                    setOpen(false);
+                }, 2000);
             }
         };
-
+        
+        
         const handleDeleteClick = () => {
             try {
                 console.log("Selected IDs for deletion:", selectedIds);
@@ -176,6 +197,11 @@ const UpdateTableComponent: React.FC<UpdateTableProps> = ({ columns, rows, getSi
                     toolbar: { setRows, setRowModesModel },
                 }}
             />
+            <Snackbar open={open} autoHideDuration={6000}>
+                <Alert severity={severity} sx={{ width: '100%' }}>
+                    {!error ? 'Данные успешно сохранены на сервере!' : 'Ошибка при сохранении данных на сервере'}
+                </Alert>
+            </Snackbar>
         </div>
     )
 }

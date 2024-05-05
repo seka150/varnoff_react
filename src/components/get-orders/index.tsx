@@ -1,4 +1,4 @@
-import { TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, Button, Select, MenuItem, FormControl, InputLabel, Popover } from '@mui/material';
+import { TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, Button, Select, MenuItem, FormControl, InputLabel, Popover, Snackbar, Alert, AlertColor } from '@mui/material';
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import ArrowDropDownOutlinedIcon from '@mui/icons-material/ArrowDropDownOutlined';
 import { IGetOrder, getOrder, updateOrderStatus } from 'store/thunks/order';
@@ -9,6 +9,9 @@ const GetOrdersComponent = () => {
     const [rows, setRows] = useState<IGetOrder[]>([]);
     const dispatch = useAppDispatch();
     const [selectStatus, setSelectStatus] = useState<number>(0);
+    const [open, setOpen] = useState(false)
+    const [error, setError] = useState(false)
+    const [severity, setSeverity] = useState<AlertColor>('success')
 
     const handleChange = (event: ChangeEvent<{ value: unknown; }>) => {
         setSelectStatus(event.target.value as number);
@@ -53,11 +56,29 @@ const GetOrdersComponent = () => {
                 setRows(prevRows =>
                     prevRows.map(row => (row.id === id ? { ...row, statusId: updatedOrder.statusId } : row))
                 );
+                setError(false)
+                setSeverity('success')
+                setOpen(true)
+                setTimeout(() => {
+                setOpen(false)
+            }, 2000)
             } else {
                 console.error('Обновление статуса заказа не удалось');
+                setError(true)
+                setSeverity('error')
+                setOpen(true)
+                setTimeout(() => {
+                    setOpen(false)
+                }, 2000)
             }
         } catch (error) {
             console.error('Ошибка при обновлении статуса заказа:', error);
+            setError(true)
+            setSeverity('error')
+            setOpen(true)
+            setTimeout(() => {
+                setOpen(false)
+            }, 2000)
         }
     };
 
@@ -115,6 +136,11 @@ const GetOrdersComponent = () => {
                     </TableBody>
                 </Table>
             </TableContainer>
+            <Snackbar open={open} autoHideDuration={6000}>
+                <Alert severity={severity} sx={{ width: '100%' }}>
+                    {!error ? 'Success!' : 'Ooops'}
+                </Alert>
+            </Snackbar>
         </>
     );
 };
