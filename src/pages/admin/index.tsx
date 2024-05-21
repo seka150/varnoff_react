@@ -39,7 +39,7 @@ const AdminPage = () => {
                 <DeleteUserComponent/>
             </TabPanel>
             <TabPanel value={value} index={3}>
-                <GetOrdersComponent/>
+                <GetOrdersComponent  orders={undefined}/>
             </TabPanel>
         </Root>
         )
