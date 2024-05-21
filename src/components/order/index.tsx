@@ -20,16 +20,15 @@ const Order = (props: IOrderProps) => {
     const {TextFilding, Root, Buttons, SelectBox, Autocompletebox, ButtonSend, Table} = useStyled(theme);
     const [orderTitle, setOrderTitle] = useState('');
     const [orderDescription, setOrderDescription] = useState('');
-    const dispatch = useAppDispatch()
+    const dispatch = useAppDispatch();
     const [selectedService, setSelectedService] = useState<string | null>(null);
     const statusId = 1;
     const [columns, setColumns] = useState<GridColDef[]>([]);
     const [rows, setRows] = useState<GridRowModel[]>([]);
-    const { user } = useAppSelector(state => state.auth.user)
-    const [open, setOpen] = useState(false)
-    const [error, setError] = useState(false)
-    const [severity, setSeverity] = useState<AlertColor>('success')
-
+    const { user } = useAppSelector(state => state.auth.user);
+    const [open, setOpen] = useState(false);
+    const [error, setError] = useState(false);
+    const [severity, setSeverity] = useState<AlertColor>('success');
 
     const flatServiceArray = serviceArray.flat();
 
@@ -55,10 +54,10 @@ const Order = (props: IOrderProps) => {
                     field: field,
                     headerName: translations[field] ?? field
                 }));
-                
+
                 const updatedColumnsWithoutLast = updatedColumns.slice(0, -1); 
                 setColumns(updatedColumnsWithoutLast);
-                
+
                 const updatedRows: GridRowModel[] = services.map((service: any, index: number) => ({
                     id: index + 1, 
                     ...service,
@@ -71,7 +70,6 @@ const Order = (props: IOrderProps) => {
     };
 
     const handleSendClick = async () => {
-        // Проверка наличия выбранной услуги
         if (!selectedService) {
             setError(true);
             setSeverity('error');
@@ -79,10 +77,9 @@ const Order = (props: IOrderProps) => {
             setTimeout(() => {
                 setOpen(false);
             }, 2000);
-            return; // Прерываем выполнение функции, если услуга не выбрана
+            return; 
         }
-    
-        // Проверка заполненности названия заказа и описания
+
         if (!orderTitle || !orderDescription) {
             setError(true);
             setSeverity('error');
@@ -90,9 +87,9 @@ const Order = (props: IOrderProps) => {
             setTimeout(() => {
                 setOpen(false);
             }, 2000);
-            return; // Прерываем выполнение функции, если не все данные заполнены
+            return;
         }
-    
+
         const selectedServiceData = serviceWithIds.find((service) => service.name === selectedService);
         if (selectedServiceData && selectedServiceData.url) {
             try {
@@ -112,7 +109,7 @@ const Order = (props: IOrderProps) => {
                         statusId: statusId,
                     })
                 );
-    
+
                 const orderId = response.payload;
                 console.log("Заказ успешно создан. ID заказа:", orderId);
                 setError(false);
@@ -132,9 +129,14 @@ const Order = (props: IOrderProps) => {
             }
         }
     };
-    
-    
 
+    const handleClearClick = () => {
+        setSelectedService(null);
+        setOrderTitle('');
+        setOrderDescription('');
+        setColumns([]);
+        setRows([]);
+    };
 
     return (
         <Root>
@@ -173,9 +175,9 @@ const Order = (props: IOrderProps) => {
                             variant="outlined"
                             multiline
                             maxRows={4}
-                            defaultValue={orderTitle}
+                            value={orderTitle}
                             onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                                setOrderTitle(event.target.value)
+                                setOrderTitle(event.target.value);
                             }}
                         />
                         <Typography>Добавьте описание:</Typography>
@@ -185,16 +187,16 @@ const Order = (props: IOrderProps) => {
                             variant="outlined"
                             multiline
                             maxRows={4}
-                            defaultValue={orderDescription}
+                            value={orderDescription}
                             onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                                setOrderDescription(event.target.value)
+                                setOrderDescription(event.target.value);
                             }}
                         />
                 </TextFilding>
                 <Buttons>
-                <Button variant="outlined"  sx={{backgroundColor: 'grey'}}>
-                    Очистить выбор
-                </Button>
+                    <Button variant="outlined" sx={{backgroundColor: 'grey'}} onClick={handleClearClick}>
+                        Очистить выбор
+                    </Button>
                     <Button variant="contained" endIcon={<SendIcon />} sx={{backgroundColor: 'blue'}} onClick={handleSendClick}>
                         Отправить
                     </Button>
@@ -207,7 +209,6 @@ const Order = (props: IOrderProps) => {
             </Snackbar>
         </Root>
     );
-}
+};
 
 export default Order;
-

@@ -1,11 +1,15 @@
 import { TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, Button, Select, MenuItem, FormControl, InputLabel, Popover, Snackbar, Alert, AlertColor } from '@mui/material';
 import React, { ChangeEvent, useEffect, useState } from 'react';
-import ArrowDropDownOutlinedIcon from '@mui/icons-material/ArrowDropDownOutlined';
 import { IGetOrder, getOrder, updateOrderStatus } from 'store/thunks/order';
 import { statuses } from 'utils/helpers/status';
 import { useAppDispatch } from 'utils/hook';
 
-const GetOrdersComponent = () => {
+interface GetOrdersComponentProps {
+    hideUpdateColumn?: boolean; 
+    orders: any
+}
+
+const GetOrdersComponent: React.FC<GetOrdersComponentProps> = ({ hideUpdateColumn }) => {
     const [rows, setRows] = useState<IGetOrder[]>([]);
     const dispatch = useAppDispatch();
     const [selectStatus, setSelectStatus] = useState<number>(0);
@@ -93,9 +97,15 @@ const GetOrdersComponent = () => {
                             <TableCell align="right">
                                 Статус
                             </TableCell>
+                            {hideUpdateColumn ? null : (
                             <TableCell align="right">User ID</TableCell>
+                            )}
+                            {hideUpdateColumn ? null : (
                             <TableCell align="right">Service ID</TableCell>
+                            )}
+                            {hideUpdateColumn ? null : (
                             <TableCell align="right">Обновить статус</TableCell>
+                            )}
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -110,27 +120,33 @@ const GetOrdersComponent = () => {
                                         {statuses[row.statusId]}
                                     </Button>
                                 </TableCell>
+                                {hideUpdateColumn ? null : (
                                 <TableCell align="right">{row.userId}</TableCell>
+                                )}
+                                {hideUpdateColumn ? null : (
                                 <TableCell align="right">{row.serviceId}</TableCell>
-                                <TableCell align="right">
-                                    <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
-                                        <InputLabel id="demo-select-small-label">Обновить</InputLabel>
-                                        <Select
-                                            labelId="demo-select-small-label"
-                                            id="demo-select-small"
-                                            value={selectStatus}
-                                            label="Статусы"
-                                            onChange={(e) => {
-                                                handleChange(e as React.ChangeEvent<{ value: unknown; }>);
-                                                handleUpdateStatus(row.id, Number(e.target.value));
-                                            }}
-                                        >
-                                            <MenuItem value={1}>Новый</MenuItem>
-                                            <MenuItem value={2}>В процессе</MenuItem>
-                                            <MenuItem value={3}>Завершен</MenuItem>
-                                        </Select>
-                                    </FormControl>
-                                </TableCell>
+                                )}
+                                {hideUpdateColumn ? null : (
+                                    <TableCell align="right">
+                                        <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+                                            <InputLabel id="demo-select-small-label">Обновить</InputLabel>
+                                            <Select
+                                                labelId="demo-select-small-label"
+                                                id="demo-select-small"
+                                                value={selectStatus}
+                                                label="Статусы"
+                                                onChange={(e) => {
+                                                    handleChange(e as React.ChangeEvent<{ value: unknown; }>);
+                                                    handleUpdateStatus(row.id, Number(e.target.value));
+                                                }}
+                                            >
+                                                <MenuItem value={1}>Новый</MenuItem>
+                                                <MenuItem value={2}>В процессе</MenuItem>
+                                                <MenuItem value={3}>Завершен</MenuItem>
+                                            </Select>
+                                        </FormControl>
+                                    </TableCell>
+                                )}
                             </TableRow>
                         ))}
                     </TableBody>
