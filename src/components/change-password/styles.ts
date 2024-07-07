@@ -2,7 +2,6 @@ import { styled, Theme } from '@mui/system';
 import { Box, TextField } from '@mui/material';
 
 export const useStyled = (theme: Theme) => {
-
     const FormWrapper = styled (Box) ({
         display: 'flex',
         flexDirection: 'column',

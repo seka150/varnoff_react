@@ -1,13 +1,10 @@
 import { TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, Button, Select, MenuItem, FormControl, InputLabel, Popover, Snackbar, Alert, AlertColor } from '@mui/material';
+import { GetOrdersComponentProps } from 'common/types/order';
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { IGetOrder, getOrder, updateOrderStatus } from 'store/thunks/order';
 import { statuses } from 'utils/helpers/status';
 import { useAppDispatch } from 'utils/hook';
 
-interface GetOrdersComponentProps {
-    hideUpdateColumn?: boolean; 
-    orders: any
-}
 
 const GetOrdersComponent: React.FC<GetOrdersComponentProps> = ({ hideUpdateColumn }) => {
     const [rows, setRows] = useState<IGetOrder[]>([]);

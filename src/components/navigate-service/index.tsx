@@ -1,12 +1,7 @@
 import React from "react";
 import { Grid, useTheme } from "@mui/material";
-import { IAssetsService } from "common/types/service";
+import { IAssetsService, MenuServiceProps } from "common/types/service";
 import useStyled from "./styles";
-
-interface MenuServiceProps {
-    service: IAssetsService[];
-    handleServiceSelect: (service: IAssetsService) => void;
-}
 
 const MenuService: React.FC<MenuServiceProps> = (props) => {
     const { service, handleServiceSelect } = props;

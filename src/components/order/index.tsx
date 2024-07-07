@@ -1,17 +1,13 @@
 import React, { useState } from "react";
 import { Alert, AlertColor, Autocomplete, Box, Button, Snackbar, TextField, Typography, useTheme } from "@mui/material";
-import { IAssetsService } from "common/types/service";
 import { useStyled } from "./slyles";
 import SendIcon from '@mui/icons-material/Send';
 import { GridColDef, GridRowModel } from "@mui/x-data-grid";
 import { translations } from "utils/helpers/translation";
 import { useAppDispatch, useAppSelector } from "utils/hook";
 import { createOrder } from "store/thunks/order";
+import { IOrderProps } from "common/types/order";
 
-interface IOrderProps {
-    service: IAssetsService[];
-    getSingleAssets: any;
-}
 
 const Order = (props: IOrderProps) => {
     const { service,  getSingleAssets} = props;

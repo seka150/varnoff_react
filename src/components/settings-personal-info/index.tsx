@@ -3,7 +3,8 @@ import { useAppDispatch, useAppSelector } from '../../utils/hook'
 import AppLoadingButton from '../loading-button'
 import { getPublicUser, updateUserInfo } from '../../store/thunks/auth'
 import { useStyled } from './styles'
-import { Grid, useTheme } from '@mui/material'
+import { Grid, useTheme, Snackbar } from '@mui/material'
+import Alert from '@mui/material/Alert';
 
 const SettingsPersonalInfoComponent: FC = (): JSX.Element => {
     const dispatch = useAppDispatch()
@@ -12,6 +13,8 @@ const SettingsPersonalInfoComponent: FC = (): JSX.Element => {
     const [name, setName] = useState('')
     const [username, setUsername] = useState('')
     const [email, setEmail] = useState('')
+    const [successMessage, setSuccessMessage] = useState('')
+    const [errorMessage, setErrorMessage] = useState('')
 
     const { user } = useAppSelector((state) => state.auth.user)
 
@@ -29,6 +32,17 @@ const SettingsPersonalInfoComponent: FC = (): JSX.Element => {
         }
     }, [user])
 
+    useEffect(() => {
+        if (successMessage || errorMessage) {
+            const timer = setTimeout(() => {
+                setSuccessMessage('')
+                setErrorMessage('')
+            }, 2000);
+
+            return () => clearTimeout(timer);
+        }
+    }, [successMessage, errorMessage])
+
     const handleSubmit = (e: React.SyntheticEvent) => {
         e.preventDefault()
         const data = {
@@ -37,7 +51,13 @@ const SettingsPersonalInfoComponent: FC = (): JSX.Element => {
             email: email,
         }
         dispatch(updateUserInfo(data))
-        dispatch(getPublicUser())
+            .then(() => {
+                setSuccessMessage('Информация успешно обновлена')
+                dispatch(getPublicUser())
+            })
+            .catch((error: any) => {
+                setErrorMessage('Ошибка при обновлении информации: ' + error.message)
+            })
     }
 
     return (
@@ -73,6 +93,34 @@ const SettingsPersonalInfoComponent: FC = (): JSX.Element => {
                     <AppLoadingButton type="submit" >Сохранить</AppLoadingButton>
                 </ButtonBlock>
             </FormWrapper>
+            {successMessage && (
+                <Alert 
+                    severity="success" 
+                    sx={{ 
+                        position: 'fixed', 
+                        bottom: theme.spacing(2), 
+                        left: theme.spacing(2),
+                        zIndex: theme.zIndex.snackbar
+                    }}
+                    onClose={() => setSuccessMessage('')}
+                >
+                    {successMessage}
+                </Alert>
+            )}
+            {errorMessage && (
+                <Alert 
+                    severity="error" 
+                    sx={{ 
+                        position: 'fixed', 
+                        bottom: theme.spacing(2), 
+                        left: theme.spacing(2),
+                        zIndex: theme.zIndex.snackbar
+                    }}
+                    onClose={() => setErrorMessage('')}
+                >
+                    {errorMessage}
+                </Alert>
+            )}
         </Grid>
     )
 }

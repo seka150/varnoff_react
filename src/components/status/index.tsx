@@ -1,7 +1,9 @@
-import { Box, Button, Paper, Step, StepContent, StepLabel, Stepper, Typography } from '@mui/material';
+import { Box, Button, Paper, Step, StepContent, StepLabel, Stepper, Typography, useTheme } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { IGetOrder, getOrder } from 'store/thunks/order';
 import { useAppDispatch, useAppSelector } from 'utils/hook';
+import { useStyled } from "./styles";
+import { styled } from '@mui/system';
 
 const StatusComponent = () => {
     const steps = [
@@ -26,7 +28,9 @@ const StatusComponent = () => {
     const [orderStatus, setOrderStatus] = useState<IGetOrder[]>([]);
     const [selectedOrder, setSelectedOrder] = useState<IGetOrder | null>(null);
     const dispatch = useAppDispatch();
-    const {user} = useAppSelector(state => state.auth.user);
+    const { user } = useAppSelector(state => state.auth.user);
+    const theme = useTheme();
+    const { TextH6, ButtonKatal, Root, BoxOrderRoot, BoxOrder } = useStyled(theme);
 
     const statusMapping: { [key: number]: number } = {
         1: 0, 
@@ -62,19 +66,29 @@ const StatusComponent = () => {
         setActiveStep(determineActiveStep(order.statusId));
     };
 
+    const CustomStepLabel = styled(StepLabel)(({ theme }) => ({
+        '& .Mui-active': {
+            color: '#7875FE', 
+        },
+        '& .Mui-completed': {
+            color: '#7875FE', 
+        },
+    }));
+
     return (
-        <Box sx={{ maxWidth: 400 }}>
+        <Root>
+            <TextH6 variant="h1" marginBottom='100px'>МОИ ЗАКАЗЫ</TextH6>
             {selectedOrder ? (
                 <Box>
-                    <Button onClick={() => setSelectedOrder(null)}>Назад к списку заказов</Button>
+                    <ButtonKatal onClick={() => setSelectedOrder(null)}>Назад к списку заказов</ButtonKatal>
                     <Stepper activeStep={activeStep} orientation="vertical">
                         {steps.map((step, index) => (
                             <Step key={step.label}>
-                                <StepLabel
+                                <CustomStepLabel
                                     optional={index === 2 ? <Typography variant="caption">Последний шаг</Typography> : null}
                                 >
                                     {step.label}
-                                </StepLabel>
+                                </CustomStepLabel>
                                 <StepContent>
                                     <Typography>{step.description}</Typography>
                                 </StepContent>
@@ -83,27 +97,29 @@ const StatusComponent = () => {
                     </Stepper>
                     {activeStep === steps.length && (
                         <Paper square elevation={0} sx={{ p: 3 }}>
-                            <Typography>Все шаги завершены - вы закончили</Typography>
+                            <Typography>Заказ получен!</Typography>
                         </Paper>
                     )}
                 </Box>
             ) : (
                 <Box>
-                    <Typography variant="h6">Ваши заказы</Typography>
                     {orderStatus.length === 0 ? (
-                        <Typography>У вас нет заказов. <a href="/watchlist">Создайте заказ</a></Typography>
+                        <BoxOrderRoot>
+                            <TextH6 variant='h5'>У вас нет заказов. 😭</TextH6>
+                            <ButtonKatal href="/watchlist">Создайте заказ</ButtonKatal>
+                        </BoxOrderRoot>
                     ) : (
                         orderStatus.map((order) => (
-                            <Box key={order.id} sx={{ mb: 2 }}>
-                                <Button sx={{color: 'white', border: '1px solid #fff'}} variant="outlined" onClick={() => handleOrderClick(order)}>
+                            <BoxOrder key={order.id}>
+                                <ButtonKatal variant="outlined" onClick={() => handleOrderClick(order)}>
                                     Заказ #{order.id}
-                                </Button>
-                            </Box>
+                                </ButtonKatal>
+                            </BoxOrder>
                         ))
                     )}
                 </Box>
             )}
-        </Box>
+        </Root>
     );
 };
 

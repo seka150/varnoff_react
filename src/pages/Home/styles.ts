@@ -1,101 +1,45 @@
 import {styled} from "@mui/system"
-import { Box, Grid, Theme } from "@mui/material";
+import { Box, Button, Grid, Theme, Typography } from "@mui/material";
 import { tokens } from "../../theme";
 
 export const useStyled = (theme: Theme) => {
     const colors = tokens(theme.palette.mode);
 
-    const Root = styled(Box)({
+    const Root = styled(Grid)({
         flexGrow: 1,
-        padding: '32px 32px 0px 32px',
-
+        padding: '30px'
     });
 
-    const TopCardItem = styled(Box)({
-        backgroundColor: `${theme.palette.mode === 'light' ? colors.primary.DEFAULT : colors.primary[600]}`,
-        padding: '20px 16px',
-        minHeight: '185px',
-        border: `1px solid ${colors.borderColor}`,
-        borderRadius: 12,
-    });
+    const Typog = styled(Typography)({
+        color: colors.black[1000],
+        fontSize: '60px',
+        lineHeight: '60px',
+        fontWeight: 400
+    })
 
-    const AssetName = styled('h3')({
-        fontSize: 25,
-        fontWeight: 600,
-        lineHeight: '1.2em', 
-        textTransform: 'capitalize'
-    });
-    
-    const ItemDetails = styled('div')({
-        display: 'flex',
-        height: '80%',
-        flexDirection: 'column',
-        justifyContent: 'flex-end',
-        paddingBottom: '35px'
-    });
+    const Parag = styled(Typography)({
+        color: colors.gray[100],
+        fontSize: '18px',
+        lineHeight: '27px',
+        fontWeight: 400
+    })
 
-    const CardPrice = styled('h3')({
-        fontSize: '32px',
-        fontWeight: 700,
-        lineHeight: '0', 
-    });
+    const ButtonKatal = styled(Button) ({
+        border: `1px solid ${colors.blue}`,
+        color: colors.blue
+    })
 
-    const PriceTrend = styled(Box)({
-        width: 80,
-        display: 'flex',
+    const Main = styled(Box)({
+        display: 'flex', 
+        justifyContent: 'space-between', 
         alignItems: 'center',
-        padding: '2px',
-        borderRadius: 4,
-    });
+        paddingBottom: '90px'
+    })
 
-    const PriceUp = styled(Box)({
-        backgroundColor: '#A9FFA7',
-        color: '#037400',
-        display: 'flex',
+    const MainText = styled(Box)({
         alignItems: 'center',
-        padding: '2px',
-        borderRadius: 4,
-    });
+        alignContent: 'center'
+    })
 
-    const PriceDown = styled(Box)({
-        backgroundColor: '#FFA7A7',
-        display: 'flex',
-        alignItems: 'center',
-        padding: '2px',
-        borderRadius: 4,
-        color: '#740000'
-    });
-
-    const LineChartBlock = styled(Grid)({
-        backgroundColor: `${theme.palette.mode === 'light' ? colors.primary.DEFAULT : colors.primary[600]}`,
-        padding: '20px 10px',
-        marginBottom: 32,
-        minHeight: 270,
-        border: `1px solid ${colors.borderColor}`,
-        borderRadius: 12,
-    });
-
-    const AreaChartBlock = styled(Grid)({
-        marginBottom: 32
-    });
-
-    const TopPriceRoot = styled(Grid)({
-        backgroundColor: `${
-            theme.palette.mode === 'light' 
-            ? colors.primary.DEFAULT
-            : colors.primary[600]
-        }`,
-        padding: '20px 16px',
-        marginBottom: 32,
-        minHeight: 270,
-        border: `1px solid ${colors.borderColor}`,
-        borderRadius: 12,
-        '& .MuiPaper-root': {
-            backgroundColor: 'transparent !important',
-            boxShadow: 'none !important',
-            backgroundImage: 'none !important'
-        }
-    });
-
-    return { Root, TopCardItem, AssetName, ItemDetails, CardPrice, PriceTrend, PriceUp, PriceDown, LineChartBlock, AreaChartBlock, TopPriceRoot};
+    return {Root, Typog, Parag, ButtonKatal, Main, MainText};
 };

@@ -10,3 +10,8 @@ export interface IAssetsService {
 export interface ISingleAssetsService {
     service: IAssetsService[];
 }
+
+export interface MenuServiceProps {
+    service: IAssetsService[];
+    handleServiceSelect: (service: IAssetsService) => void;
+}

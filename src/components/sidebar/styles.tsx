@@ -15,7 +15,7 @@ export const useStyled = (theme: Theme) => {
 
     const NavItemButton = styled(ListItemButton)(({ theme }) => ({
         '&:hover': {
-            backgroundColor: '#1900d5 !important',
+            backgroundColor: '#7875FE !important',
             color: '#fff',
             borderRadius: '4px',
             '& .MuiSvgIcon-root': {
@@ -23,7 +23,7 @@ export const useStyled = (theme: Theme) => {
             },
         },
         '&.active': {
-            backgroundColor: '#1900d5 !important',
+            backgroundColor: '#7875FE !important',
             color: '#fff !important',
             borderRadius: '4px !important'
         },

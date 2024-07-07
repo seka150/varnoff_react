@@ -1,46 +1,62 @@
-import { Box, Grid, Theme } from "@mui/material";
-import {styled} from "@mui/system"
-import { tokens } from "../../theme";
+import styled from '@emotion/styled';
+import { Theme, Paper } from '@mui/material';
 
 export const useStyled = (theme: Theme) => {
-    const colors = tokens(theme.palette.mode)
+  const Root = styled('div')({
+    padding: theme.spacing(4),
+    backgroundColor: theme.palette.background.default,
+  });
 
-    const Root = styled(Grid) ({
-        padding: 32,
-        '& a': {
-            textDecoration: 'none',
-            color: `${
-                theme.palette.mode === 'light'
-                    ? colors.black.DEFAULT
-                    : colors.white.DEFAULT
-            }`,
-        },
-    });
+  const History = styled(Paper)({
+    backgroundImage: 'url(https://i.pinimg.com/564x/07/52/40/075240dc018c6ea3e462277e09bfe03d.jpg)',
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+    marginBottom: theme.spacing(4),
+    padding: theme.spacing(4),
+    height: '500px',
+    borderRadius: '10px',
+    color: 'white',
+    position: 'relative',
+  });
 
-    const History = styled(Box) ({
-        display: 'flex',
-        backgroundColor: `${theme.palette.mode === 'light' ? colors.primary.DEFAULT : colors.primary[600]}`,
-        padding: '20px 16px',
-        minHeight: '185px',
-        border: `1px solid ${colors.borderColor}`,
-        borderRadius: 12,
-    });
+  const HistoryText = styled('div')({
+    zIndex: 2,
+    padding: theme.spacing(2),
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
+    borderRadius: '10px',
+  });
 
-    const HistoryText = styled(Box) ({
-        width: '50%',
-        textAlign: 'center'
-    });
+  const InnovationBox = styled('div')({
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    zIndex: 2,
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
+    borderRadius: '10px',
+    padding: theme.spacing(2),
+  });
 
-    const Image = styled('img') ({
-        width: '80%',
-        borderRadius: 12,
-    });
+  const InnovationItem = styled('div')({
+    padding: theme.spacing(2),
+    marginBottom: theme.spacing(2),
+    border: `1px solid ${theme.palette.divider}`,
+    borderRadius: '10px',
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    '&:last-child': {
+      marginBottom: 0,
+    },
+  });
 
-    const Mission = styled(Box) ({
-        paddingTop: '40px'
-    });
-    
-        
-        return {Root, History, HistoryText, Image, Mission};
-        
-    }
+  const ContactInfo = styled(Paper)({
+    padding: theme.spacing(4),
+    backgroundColor: theme.palette.background.paper,
+    borderRadius: '10px',
+    marginTop: theme.spacing(4),
+  });
+
+  return { Root, History, HistoryText, InnovationBox, InnovationItem, ContactInfo };
+};

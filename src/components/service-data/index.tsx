@@ -1,5 +1,5 @@
-import React from "react";
-import { GridColDef } from '@mui/x-data-grid';
+import React, { useEffect } from "react";
+import { GridColDef, GridEventListener } from '@mui/x-data-grid';
 import { useStyled } from "./styles";
 import { useTheme } from "@mui/material";
 import { ISingleAssetsService } from "common/types/service";
@@ -18,7 +18,9 @@ const ServiceDataComponent = (props: ISingleAssetsService) => {
         name: service.name,
         description: service.description,
         price: service.price,
+        url: service.url
     }));
+
     
 
     const columns: GridColDef[] = [
@@ -34,7 +36,6 @@ const ServiceDataComponent = (props: ISingleAssetsService) => {
     ];
 
 
-
     return (
         <div style={{ height: 400, width: '100%' }}>
             <Root
@@ -46,7 +47,6 @@ const ServiceDataComponent = (props: ISingleAssetsService) => {
                     },
                 }}
                 pageSizeOptions={[5, 10]}
-                checkboxSelection
             />
         </div>
     );

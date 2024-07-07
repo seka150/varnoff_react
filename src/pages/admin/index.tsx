@@ -4,10 +4,8 @@ import TabPanel from '../../components/tab-panel'
 import { tabProps } from '../../utils/helpers'
 import { tokens } from '../../theme'
 import { useStyled } from './styles'
-import ChangePasswordComponent from '../../components/change-password'
-import DeleteUserComponent from '../../components/delete-user'
-import ServiceComponent from '../../components/create-services'
 import GetOrdersComponent from 'components/get-orders'
+import ContentComponent from 'components/content-table'
 
 
 const AdminPage = () => {
@@ -24,21 +22,13 @@ const AdminPage = () => {
             <TabsWrapper>
                 <Tabs value={value} onChange={handleChange} aria-label="Admin tabs" centered textColor='secondary' TabIndicatorProps={{style: {backgroundColor: colors.blue}}}> 
                     <Tab label="Контент" {...tabProps(0)} />
-                    <Tab label="Основные настройки" {...tabProps(1)} />
-                    <Tab label="Аналитика" {...tabProps(2)} />
-                    <Tab label="Заказы" {...tabProps(3)} />
+                    <Tab label="Заказы" {...tabProps(1)} />
                 </Tabs>
             </TabsWrapper>
             <TabPanel value={value} index={0}>
-                <ServiceComponent />
+                <ContentComponent />
             </TabPanel>
             <TabPanel value={value} index={1}>
-                <ChangePasswordComponent/>
-            </TabPanel>
-            <TabPanel value={value} index={2}>
-                <DeleteUserComponent/>
-            </TabPanel>
-            <TabPanel value={value} index={3}>
                 <GetOrdersComponent  orders={undefined}/>
             </TabPanel>
         </Root>

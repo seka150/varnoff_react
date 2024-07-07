@@ -14,7 +14,7 @@ export const navMenu =[
         id: 2
     },
     {
-        name: 'Мои заказы',
+        name: 'Создать заказ',
         icon: <LocalGroceryStore/>,
         path: '/watchlist',
         id: 3

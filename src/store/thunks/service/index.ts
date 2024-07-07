@@ -17,4 +17,3 @@ export const getService = createAsyncThunk<ISingleAssetsService[], void, { rejec
         }
     }
 )
-

@@ -90,7 +90,6 @@ const UpdateTableComponent: React.FC<UpdateTableProps> = ({ columns, rows, getSi
         const handleSaveClick = async (e: any) => {
             e.preventDefault();
             try {
-                // Проверяем, заполнены ли данные перед сохранением
                 const formDataValues = Object.values(formData);
                 if (formDataValues.some(value => value === '' || value === null)) {
                     throw new Error('Данные не заполнены');
