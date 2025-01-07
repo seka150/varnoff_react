@@ -8,7 +8,7 @@ export const useStyled = (theme: Theme) => {
     const Brand = styled(Box)({
         display: 'flex',
         alignItems: 'center',
-        gap: '10px',
+        gap: '2px',
         padding: '30px 15px',
         cursor: 'pointer',
     });

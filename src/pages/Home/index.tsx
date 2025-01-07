@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { Box,  useTheme } from "@mui/material";
+import { Box,  Typography,  useTheme } from "@mui/material";
 import { useStyled } from "./styles";
 import StatusComponent from "components/status";
 import CardComponent from "components/card";
@@ -48,7 +48,7 @@ const HomePage: FC = (): JSX.Element => {
         <Root>
             <Main>
                 <MainText>
-                    <Typog variant="h1" paddingBottom='30px'>V@RNOFF</Typog>
+                    <Typog variant="h1" paddingBottom='30px'>ЗАВОД <Typography variant="h5">Металлоконструкций</Typography></Typog>
                     <Parag paddingBottom='30px'>Интернет-Агентство, котрый может предложить полный спектр услуг в области Интернет бизнеса, как стандартные и простые решения так и оригинальные идеи.</Parag>
                     <ButtonKatal variant="outlined" size="large" onClick={handleServiceClick}>
                         Каталог
