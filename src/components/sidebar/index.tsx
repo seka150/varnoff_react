@@ -53,7 +53,16 @@ const SidebarComponent: FC<ISidebarProps> = (props: ISidebarProps): JSX.Element 
                             <FlexBetweenComponent>
                                 <Brand>
                                     <img src={logo} alt="logo" />
-                                    <Typography variant='h1' color={theme.palette.mode === 'dark' ? colors.white.DEFAULT : colors.black.DEFAULT}>V@rnoff</Typography>
+                                    <Box  sx={{ 
+                                        display: 'flex', 
+                                        flexDirection: 'column', 
+                                        alignItems: 'center', 
+                                        justifyContent: 'center', 
+                                        textAlign: 'start', 
+                                        padding: '0px' 
+                                    }}>
+                                    <Typography variant='button' color={theme.palette.mode === 'dark' ? colors.white.DEFAULT : colors.black.DEFAULT}>Завод <Typography variant='subtitle2'>металлоконструкций</Typography></Typography>
+                                    </Box>
                                 </Brand>
                                 {!isNonMobile && (
                                     <IconButton onClick={() => setIsOpen(!isOpen)}>
