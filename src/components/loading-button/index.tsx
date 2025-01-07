@@ -5,7 +5,7 @@ import { tokens } from 'theme';
 const AppLoadingButtonComponent = styled(LoadingButton)
 ({
     borderRadius: 4,
-    backgroundColor: '#7875FE !important',
+    backgroundColor: '#00BCA9 !important',
     boxShadow: '0px 1px 7px #332a76 !important',
     padding: '10px 20px !important',
     maxWidth: 300,
