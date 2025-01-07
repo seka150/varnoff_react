@@ -12,7 +12,7 @@ export const useStyled = (theme: Theme) => {
 
     const Typog = styled(Typography)({
         color: colors.black[1000],
-        fontSize: '60px',
+        fontSize: '40px',
         lineHeight: '60px',
         fontWeight: 400
     })
@@ -41,5 +41,21 @@ export const useStyled = (theme: Theme) => {
         alignContent: 'center'
     })
 
-    return {Root, Typog, Parag, ButtonKatal, Main, MainText};
+    const CreateOrder = styled(Box)({
+        display: 'flex',
+    })
+
+    const CreateOrderBox = styled(Box)({
+        backgroundColor: `${colors.green.DEFAULT}`,
+        borderRadius: '15px',
+        alignItems: 'center',
+        color: `${colors.white.DEFAULT}`,
+        padding: '25px',
+    })
+
+    const CreateOrderBoxText = styled(Box)({
+        marginBottom: '30px',
+    })
+
+    return {Root, Typog, Parag, ButtonKatal, Main, MainText, CreateOrder, CreateOrderBox, CreateOrderBoxText};
 };

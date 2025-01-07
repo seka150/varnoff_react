@@ -20,6 +20,12 @@ export const navMenu =[
         id: 3
     },
     {
+        name: 'Мои заказы',
+        icon: <LocalGroceryStore/>,
+        path: '/watchlist',
+        id: 3
+    },
+    {
         name: 'Наша компания',
         icon: <MenuBookOutlined/>,
         path: '/about',

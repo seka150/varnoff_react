@@ -1,18 +1,23 @@
 import { FC } from "react";
-import { Box,  Typography,  useTheme } from "@mui/material";
+import { Box,  Button,  colors,  Typography,  useTheme } from "@mui/material";
 import { useStyled } from "./styles";
 import StatusComponent from "components/status";
 import CardComponent from "components/card";
 import Footer from "components/footer";
 
 
+
 const HomePage: FC = (): JSX.Element => {
     const theme = useTheme()
-    const {Root, Typog, Parag, ButtonKatal, Main, MainText} = useStyled(theme)
+    const {Root, Typog, Parag, ButtonKatal, Main, MainText, CreateOrder, CreateOrderBox, CreateOrderBoxText} = useStyled(theme)
 
     const handleServiceClick = () => {
         window.location.href = '/service';
     };
+
+    const handleWatchlist = () => {
+        window.location.href = '/watchlist'
+    }
 
     const cardsData = [
         {
@@ -48,20 +53,30 @@ const HomePage: FC = (): JSX.Element => {
         <Root>
             <Main>
                 <MainText>
-                    <Typog variant="h1" paddingBottom='30px'>ЗАВОД <Typography variant="h5">Металлоконструкций</Typography></Typog>
-                    <Parag paddingBottom='30px'>Интернет-Агентство, котрый может предложить полный спектр услуг в области Интернет бизнеса, как стандартные и простые решения так и оригинальные идеи.</Parag>
+                    <Typog paddingBottom='30px'>СДЕЛАЕМ И УСТАНОВИМ НАВЕС ЛЮБОЙ СЛОЖНОСТИ ПОД КЛЮЧ ОТ 3 ДНЕЙ В САМАРЕ</Typog>
+                    <Parag paddingBottom='30px'> Бесплатный выезд специалиста в день обращения!</Parag>
                     <ButtonKatal variant="outlined" size="large" onClick={handleServiceClick}>
                         Каталог
                     </ButtonKatal>
                 </MainText>
                 <Box>
-                    <img src="https://cdn3d.iconscout.com/3d/premium/thumb/male-programmer-5743382-4846824.png" alt="programmer" />
+                    <img width={650} src="https://mirnavesov.com/wp-content/uploads/2022/11/Picture_main-1024x717.png?v=1681207476" alt="naves" />
                 </Box>
             </Main>
-            <Box>
+            <CreateOrder>
+                <CreateOrderBox>
+                    <CreateOrderBoxText>
+                        <Typography variant="h3">Получите ТОЧНЫЙ РАСЧЕТ навеса</Typography>
+                        <Typography variant="h6">Подберем для Вас все параметры навеса и бесплатно посчитаем смету</Typography>
+                        <Typography variant="h6">Ждем вашу заявку!</Typography>
+                    </CreateOrderBoxText>
+                    <ButtonKatal variant="outlined" size="large" onClick={handleWatchlist}>Сoздать заявку</ButtonKatal>
+                </CreateOrderBox>
+            </CreateOrder>
+            {/* <Box>
                 <StatusComponent/>
-            </Box>
-            <Box sx={{marginTop: '90px'}}>
+            </Box> */}
+            {/* <Box sx={{marginTop: '90px'}}>
                 <Box display="flex" justifyContent="center" flexWrap="wrap">
                     {cardsData.map((card, index) => (
                         <CardComponent
@@ -72,7 +87,7 @@ const HomePage: FC = (): JSX.Element => {
                         />
                     ))}
                 </Box>
-            </Box>
+            </Box> */}
             <Box component="footer" mt="auto">
                 <Footer />
             </Box>
