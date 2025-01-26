@@ -2,7 +2,7 @@ import {styled} from "@mui/system"
 import { Box, Button, Grid, Theme, Typography } from "@mui/material";
 import { tokens } from "../../theme";
 
-export const useStyled = (theme: Theme) => {
+export const useStyled: any = (theme: Theme) => {
     const colors = tokens(theme.palette.mode);
 
     const Root = styled(Grid)({
@@ -57,5 +57,12 @@ export const useStyled = (theme: Theme) => {
         marginBottom: '30px',
     })
 
-    return {Root, Typog, Parag, ButtonKatal, Main, MainText, CreateOrder, CreateOrderBox, CreateOrderBoxText};
+    const GelleryStyle = styled(Box)({
+        marginTop: '90px',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '100%',
+    });     
+    return {Root, Typog, Parag, ButtonKatal, Main, MainText, CreateOrder, CreateOrderBox, CreateOrderBoxText, GelleryStyle};
 };
