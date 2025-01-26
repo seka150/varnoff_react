@@ -58,7 +58,7 @@ export const useStyled: any = (theme: Theme) => {
     })
 
     const GelleryStyle = styled(Box)({
-        marginTop: '90px',
+        marginTop: '40px',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',

@@ -1,10 +1,8 @@
 import { FC } from "react";
-import { Box,  Button,  colors,  Typography,  useTheme } from "@mui/material";
+import { Box, Typography,  useTheme } from "@mui/material";
 import { useStyled } from "./styles";
-import StatusComponent from "components/status";
-import CardComponent from "components/card";
 import Footer from "components/footer";
-import { green } from "@mui/material/colors";
+// import { green } from "@mui/material/colors";
 import GalleryComponent from "components/gallery";
 
 
@@ -21,33 +19,33 @@ const HomePage: FC = (): JSX.Element => {
         window.location.href = '/watchlist'
     }
 
-    const cardsData = [
-        {
-            title: 'SEO-BOX.RU',
-            description: 'Сайт должен приносить прибыль! SEO-BOX.RU продвинет Ваш сайт в ТОП-10 благодаря услуге "продвижение сайтов", что поможет повысить посещаемость ресурса, а следовательно, и увеличит продажи. ',
-            image: 'https://varnoff.ru/assets/img/web10.jpg'
-        },
-        {
-            title: 'IT-COMPUTERS.RU',
-            description: 'IT Аутсорсинг - обслуживание компьютеров, серверов и сетей организаций в Самаре и Самарской области',
-            image: 'https://varnoff.ru/assets/img/web7.jpg'
-        },
-        {
-            title: 'AKULA-COMPANY.COM',
-            description: 'Маркетинг - двигатель роста прибыли организаций в Самаре и Самарской области',
-            image: 'https://varnoff.ru/assets/img/shark.jpg'
-        },
-        {
-            title: 'SERVERNAY.RU',
-            description: 'Услуги дата-центра такие как хостинг, регистрация доменов, размещение и аренда серверов мы решили отобразить на отдельном сайте. Там же вы сможете ознакомится с тарифами на наши услуги. ',
-            image: 'https://varnoff.ru/assets/img/web1.jpg'
-        },
-        {
-            title: '163.RU',
-            description: 'В работе находится информационный портал Самарской области. Сроки запуска проекта пока неизвесты, но мы его всетаки доделаем ',
-            image: 'https://varnoff.ru/assets/img/web2.jpg'
-        },
-    ];
+    // const cardsData = [
+    //     {
+    //         title: 'SEO-BOX.RU',
+    //         description: 'Сайт должен приносить прибыль! SEO-BOX.RU продвинет Ваш сайт в ТОП-10 благодаря услуге "продвижение сайтов", что поможет повысить посещаемость ресурса, а следовательно, и увеличит продажи. ',
+    //         image: 'https://varnoff.ru/assets/img/web10.jpg'
+    //     },
+    //     {
+    //         title: 'IT-COMPUTERS.RU',
+    //         description: 'IT Аутсорсинг - обслуживание компьютеров, серверов и сетей организаций в Самаре и Самарской области',
+    //         image: 'https://varnoff.ru/assets/img/web7.jpg'
+    //     },
+    //     {
+    //         title: 'AKULA-COMPANY.COM',
+    //         description: 'Маркетинг - двигатель роста прибыли организаций в Самаре и Самарской области',
+    //         image: 'https://varnoff.ru/assets/img/shark.jpg'
+    //     },
+    //     {
+    //         title: 'SERVERNAY.RU',
+    //         description: 'Услуги дата-центра такие как хостинг, регистрация доменов, размещение и аренда серверов мы решили отобразить на отдельном сайте. Там же вы сможете ознакомится с тарифами на наши услуги. ',
+    //         image: 'https://varnoff.ru/assets/img/web1.jpg'
+    //     },
+    //     {
+    //         title: '163.RU',
+    //         description: 'В работе находится информационный портал Самарской области. Сроки запуска проекта пока неизвесты, но мы его всетаки доделаем ',
+    //         image: 'https://varnoff.ru/assets/img/web2.jpg'
+    //     },
+    // ];
     
 
 
@@ -75,6 +73,9 @@ const HomePage: FC = (): JSX.Element => {
                     <ButtonKatal variant="outlined" size="large" onClick={handleWatchlist}>Сoздать заявку</ButtonKatal>
                 </CreateOrderBox>
             </CreateOrder>
+            <Box paddingTop= '100px'>
+                <Typog>Малая часть объектов 2018 - 2024 года</Typog>
+            </Box>
             <GelleryStyle>
                 <GalleryComponent/>
             </GelleryStyle>
