@@ -21,7 +21,7 @@ const AdminPage = () => {
         <Root>
             <TabsWrapper>
                 <Tabs value={value} onChange={handleChange} aria-label="Admin tabs" centered textColor='secondary' TabIndicatorProps={{style: {backgroundColor: colors.blue}}}> 
-                    <Tab label="Контент" {...tabProps(0)} />
+                    <Tab label="Услуги" {...tabProps(0)} />
                     <Tab label="Заказы" {...tabProps(1)} />
                 </Tabs>
             </TabsWrapper>
@@ -35,4 +35,4 @@ const AdminPage = () => {
         )
     }
 
-    export default AdminPage
+    export default AdminPage;

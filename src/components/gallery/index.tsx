@@ -1,6 +1,5 @@
 import React from "react";
-import { Box, Button, Card, CardActionArea, CardActions, CardContent, CardMedia, Typography, useTheme } from "@mui/material";
-import { useStyled } from "./slyles";
+import { Box, Card, CardActionArea, CardContent, CardMedia, Typography} from "@mui/material";
 
 const GalleryComponent = () => {
     const CardsContent = [
@@ -27,34 +26,26 @@ const GalleryComponent = () => {
         },
     ];
 
-    const theme = useTheme();
-    const {ButtonKatal, ButtonContainer} = useStyled(theme);
-
     return (
         <Box sx={{ display: "flex", flexWrap: "wrap", gap: 2, justifyContent: "center", padding: 2 }}>
         {CardsContent.map((card) => (
             <Card key={card.id} sx={{ maxWidth: 345 }}>
-            <CardActionArea>
-                <CardMedia component="img" height="140" image={card.image} alt={card.title} />
-                <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
-                    {card.title}
-                </Typography>
-                <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                    {card.task}
-                </Typography>
-                <Typography variant="body2" sx={{ color: "text.secondary", marginTop: 1 }}>
-                    {card.disc}
-                </Typography>
-                </CardContent>
-            </CardActionArea>
-            <CardActions>
-                <ButtonContainer>
-                <ButtonKatal size="small">
-                    Подробнее
-                </ButtonKatal>
-                </ButtonContainer>
-            </CardActions>
+                <CardActionArea>
+                    <CardMedia component="img" height="140" image={card.image} alt={card.title} />
+                        <CardContent>
+                            <Typography gutterBottom variant="h5" component="div">
+                                {card.title}
+                            </Typography>
+                            <Typography>Задача:</Typography>
+                            <Typography variant="body2" sx={{ color: "text.secondary" }}>
+                                {card.task}
+                            </Typography>
+                            <Typography paddingTop='10px'>Описание:</Typography>
+                            <Typography variant="body2" sx={{ color: "text.secondary" }}>
+                                {card.disc}
+                            </Typography>
+                    </CardContent>
+                </CardActionArea>
             </Card>
         ))}
         </Box>
