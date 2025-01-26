@@ -4,12 +4,14 @@ import { useStyled } from "./styles";
 import StatusComponent from "components/status";
 import CardComponent from "components/card";
 import Footer from "components/footer";
+import { green } from "@mui/material/colors";
+import GalleryComponent from "components/gallery";
 
 
 
 const HomePage: FC = (): JSX.Element => {
     const theme = useTheme()
-    const {Root, Typog, Parag, ButtonKatal, Main, MainText, CreateOrder, CreateOrderBox, CreateOrderBoxText} = useStyled(theme)
+    const {Root, Typog, Parag, ButtonKatal, Main, MainText, CreateOrder, CreateOrderBox, CreateOrderBoxText, GelleryStyle} = useStyled(theme)
 
     const handleServiceClick = () => {
         window.location.href = '/service';
@@ -73,6 +75,9 @@ const HomePage: FC = (): JSX.Element => {
                     <ButtonKatal variant="outlined" size="large" onClick={handleWatchlist}>Сoздать заявку</ButtonKatal>
                 </CreateOrderBox>
             </CreateOrder>
+            <GelleryStyle>
+                <GalleryComponent/>
+            </GelleryStyle>
             {/* <Box>
                 <StatusComponent/>
             </Box> */}
