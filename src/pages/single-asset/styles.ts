@@ -1,5 +1,5 @@
-import {styled} from "@mui/system"
-import { Grid, Theme, Typography} from "@mui/material";
+import {Box, styled} from "@mui/system"
+import { Button, Grid, Theme, Typography} from "@mui/material";
 import { tokens } from "../../theme";
 import { DataGrid } from "@mui/x-data-grid";
 
@@ -63,9 +63,34 @@ export const useStyled = (theme: Theme) => {
     });
 
     const TypoHead = styled(Typography)({
-        fontSize: '60px',
-        fontWeight: 'inherit'
+        fontSize: "32px",
+        fontWeight: "bold",
+        textTransform: "uppercase",
     });
 
-    return { Root, TopPriceRoot, Table, TopCardItem, TypoHead};
+    const StyledContainer = styled(Box)({
+        display: "flex",
+        alignItems: "center",
+        gap: "20px",
+        padding: "20px",
+    });
+
+    const Description = styled(Typography)({
+        fontSize: "18px",
+        color: "#555",
+    });
+    
+    const cardMediaStyles = {
+        width: "700px",
+        height: "500px", 
+        objectFit: "cover",
+        borderRadius: "8px",
+    };
+    
+    const ButtonKatal = styled(Button) ({
+        border: `1px solid ${colors.blue}`,
+        color: colors.blue
+    })
+    
+    return { Root, TopPriceRoot, Table, TopCardItem, TypoHead, StyledContainer, Description, cardMediaStyles, ButtonKatal};
 };
