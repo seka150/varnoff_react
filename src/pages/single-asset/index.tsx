@@ -1,19 +1,24 @@
 import React, { FC, useState, useEffect } from 'react';
-import { GridColDef } from '@mui/x-data-grid';
-import { Box, CardMedia, Grid, Typography, useTheme } from '@mui/material';
+import { Box, Card, CardActionArea, CardActions, CardContent, CardMedia, Grid, Typography, useTheme } from '@mui/material';
 import { useLocation, useParams } from 'react-router-dom';
 import { useAppDispatch } from '../../utils/hook';
 import { getSingleAssets } from 'store/thunks/data';
 import { useStyled } from './styles';
-import { translations } from "../../utils/helpers/translation"
 import { getService } from 'store/thunks/service';
-import FlexBetweenComponent from 'components/flex-between';
+
+interface SinglAssets {
+    id: number;
+    title: string; 
+    description: string;
+    price: number;
+    img: string;
+}
 
 const SingleAssetPage: FC = (): JSX.Element => {
     const { state } = useLocation();
     const url = state ? state.url : '';
-    const theme = useTheme()
-    const { Root, TopPriceRoot, Table, TopCardItem, TypoHead} = useStyled(theme)
+    const theme = useTheme();
+    const { Root, StyledContainer, TypoHead, Description, cardMediaStyles, ButtonKatal } = useStyled(theme);
     const [asset, setAsset] = useState<any>(null);
     const { id } = useParams();
     const dispatch = useAppDispatch();
@@ -26,9 +31,9 @@ const SingleAssetPage: FC = (): JSX.Element => {
                 setAsset(response.payload);
             } catch (e) {
                 console.error("Ошибка при загрузке данных актива:", e);
-                }
             }
-    
+        };
+
         const fetchService = async () => {
             try {
                 const serviceData = await dispatch(getService()); 
@@ -37,73 +42,74 @@ const SingleAssetPage: FC = (): JSX.Element => {
                 console.error("Ошибка при загрузке данных сервиса:", e);
             }
         };
-    
+
         fetchData();
         fetchService();
     }, [dispatch, id, url]);
-    
 
-    const generateColumns = (): GridColDef[] => {
-        if (!asset || !asset.services || asset.services.length === 0) {
-            return [];
-        }
-
-        const firstService = asset.services[0];
-        const columns: GridColDef[] = Object.keys(firstService).map((key: string) => ({
-            field: key,
-            headerName: translations[key] ?? key
-        }));
-
-        return columns;
+    const HandleClickSelectAsset = () => {
+        window.location.href = '/watchlist';
     };
 
-    const columns = generateColumns();
-
-    const rows = asset ? asset.services.map((item: any, index: number) => ({ id: index + 1, ...item })) : [];
-    
     const selectedService = serviceData ? serviceData.services.find((service: any) => service.url === id) : null;
-    
+
     return (
         <Root>
-            <FlexBetweenComponent>
+            <StyledContainer>
                 <Box>
                     <CardMedia
                         component="img"
                         alt="img"
                         height="500"
-                        image={selectedService ? selectedService.img :  ''}
+                        image={selectedService ? selectedService.img : ''}
+                        sx={cardMediaStyles}
                     />
                 </Box>
                 <Box>
                     <TypoHead variant="h1" gutterBottom>{selectedService ? selectedService.name : ''}</TypoHead>
-                    <Typography variant='body1'> {selectedService ? selectedService.description : ''}</Typography>
+                    <Description variant='body1'>{selectedService ? selectedService.description : ''}</Description>
                 </Box>
+            </StyledContainer>
+            <Grid sx={{ marginTop: 5 }} container spacing={2}>
+                {asset?.services?.length ? (
+                    asset.services.map((service: SinglAssets) => (
+                        <Grid item xs={12} sm={4} key={service.id}> 
+                            <Card key={service.id} sx={{ maxWidth: 345 }}>
+                                <CardActionArea>
+                                    <CardMedia
+                                        component="img"
+                                        height="140"
+                                        image={service.img}
+                                        alt={service.title}
+                                    />
+                                    <CardContent>
+                                        <Typography gutterBottom variant="h5" component="div">
+                                            {service.title}
+                                        </Typography>
+                                        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                                            {service.description}
+                                        </Typography>
+                                        <Typography>
+                                            {service.price}
+                                        </Typography>
+                                    </CardContent>
+                                </CardActionArea>
+                                <CardActions>
+                                    <ButtonKatal size="small" color="primary" onClick={HandleClickSelectAsset}>
+                                        Оформить заявку!
+                                    </ButtonKatal>
+                                </CardActions>
+                            </Card>
+                        </Grid>
+                    ))
+                ) : (
+                    <p>Услуги отсутствуют</p>
+                )}
+            </Grid>
+            <Typography variant="body1" sx={{ marginTop: 2 }}>
+                 * Также доступно создать навес под ваши размеры и желания.
+            </Typography>
 
-            </FlexBetweenComponent>
-
-
-
-
-
-            {/* <FlexBetweenComponent>
-            <TopCardItem sx={{marginRight: '40px'}}>
-                <Typography variant='h3'>{selectedService ? selectedService.name : ''}</Typography>
-            </TopCardItem>
-            <TopCardItem item xs={12} lg={12} sm={12}>
-            <Typography variant='h6'>{selectedService ? selectedService.description : ''}</Typography>
-            </TopCardItem>
-            </FlexBetweenComponent>
-            <TopPriceRoot container item xs={12} lg={12} sm={12}>
-                <Grid style={{ height: 'auto', width: '100%' }} >
-                <Table
-                    rows={rows}
-                    columns={columns}
-                    pageSizeOptions={[]}
-                    checkboxSelection
-                    autoHeight={true}
-                    />
-                </Grid>
-            </TopPriceRoot> */}
         </Root>
     );
 };
