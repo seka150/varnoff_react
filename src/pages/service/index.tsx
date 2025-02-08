@@ -19,6 +19,8 @@ const ServicePage = () => {
         (state) => state.service.service
     )
 
+    console.log(serviceArray)
+
 
     return (
     <Root>

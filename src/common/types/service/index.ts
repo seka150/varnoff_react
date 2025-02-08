@@ -4,6 +4,7 @@ export interface IAssetsService {
     description: string;
     price: number;
     url: string;
+    img: string;
     otherParams: any
 }
 

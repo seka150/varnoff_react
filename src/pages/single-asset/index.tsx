@@ -1,6 +1,6 @@
 import React, { FC, useState, useEffect } from 'react';
 import { GridColDef } from '@mui/x-data-grid';
-import { Grid, Typography, useTheme } from '@mui/material';
+import { Box, CardMedia, Grid, Typography, useTheme } from '@mui/material';
 import { useLocation, useParams } from 'react-router-dom';
 import { useAppDispatch } from '../../utils/hook';
 import { getSingleAssets } from 'store/thunks/data';
@@ -13,7 +13,7 @@ const SingleAssetPage: FC = (): JSX.Element => {
     const { state } = useLocation();
     const url = state ? state.url : '';
     const theme = useTheme()
-    const { Root, TopPriceRoot, Table, TopCardItem } = useStyled(theme)
+    const { Root, TopPriceRoot, Table, TopCardItem, TypoHead} = useStyled(theme)
     const [asset, setAsset] = useState<any>(null);
     const { id } = useParams();
     const dispatch = useAppDispatch();
@@ -62,11 +62,30 @@ const SingleAssetPage: FC = (): JSX.Element => {
     const rows = asset ? asset.services.map((item: any, index: number) => ({ id: index + 1, ...item })) : [];
     
     const selectedService = serviceData ? serviceData.services.find((service: any) => service.url === id) : null;
-
     
     return (
         <Root>
             <FlexBetweenComponent>
+                <Box>
+                    <CardMedia
+                        component="img"
+                        alt="img"
+                        height="500"
+                        image={selectedService ? selectedService.img :  ''}
+                    />
+                </Box>
+                <Box>
+                    <TypoHead variant="h1" gutterBottom>{selectedService ? selectedService.name : ''}</TypoHead>
+                    <Typography variant='body1'> {selectedService ? selectedService.description : ''}</Typography>
+                </Box>
+
+            </FlexBetweenComponent>
+
+
+
+
+
+            {/* <FlexBetweenComponent>
             <TopCardItem sx={{marginRight: '40px'}}>
                 <Typography variant='h3'>{selectedService ? selectedService.name : ''}</Typography>
             </TopCardItem>
@@ -84,7 +103,7 @@ const SingleAssetPage: FC = (): JSX.Element => {
                     autoHeight={true}
                     />
                 </Grid>
-            </TopPriceRoot>
+            </TopPriceRoot> */}
         </Root>
     );
 };

@@ -1,5 +1,5 @@
 import {styled} from "@mui/system"
-import { Grid, Theme} from "@mui/material";
+import { Grid, Theme, Typography} from "@mui/material";
 import { tokens } from "../../theme";
 import { DataGrid } from "@mui/x-data-grid";
 
@@ -62,5 +62,10 @@ export const useStyled = (theme: Theme) => {
         justifyContent: 'center',
     });
 
-    return { Root, TopPriceRoot, Table, TopCardItem};
+    const TypoHead = styled(Typography)({
+        fontSize: '60px',
+        fontWeight: 'inherit'
+    });
+
+    return { Root, TopPriceRoot, Table, TopCardItem, TypoHead};
 };
