@@ -18,34 +18,6 @@ const HomePage: FC = (): JSX.Element => {
     const handleWatchlist = () => {
         window.location.href = '/watchlist'
     }
-
-    // const cardsData = [
-    //     {
-    //         title: 'SEO-BOX.RU',
-    //         description: 'Сайт должен приносить прибыль! SEO-BOX.RU продвинет Ваш сайт в ТОП-10 благодаря услуге "продвижение сайтов", что поможет повысить посещаемость ресурса, а следовательно, и увеличит продажи. ',
-    //         image: 'https://varnoff.ru/assets/img/web10.jpg'
-    //     },
-    //     {
-    //         title: 'IT-COMPUTERS.RU',
-    //         description: 'IT Аутсорсинг - обслуживание компьютеров, серверов и сетей организаций в Самаре и Самарской области',
-    //         image: 'https://varnoff.ru/assets/img/web7.jpg'
-    //     },
-    //     {
-    //         title: 'AKULA-COMPANY.COM',
-    //         description: 'Маркетинг - двигатель роста прибыли организаций в Самаре и Самарской области',
-    //         image: 'https://varnoff.ru/assets/img/shark.jpg'
-    //     },
-    //     {
-    //         title: 'SERVERNAY.RU',
-    //         description: 'Услуги дата-центра такие как хостинг, регистрация доменов, размещение и аренда серверов мы решили отобразить на отдельном сайте. Там же вы сможете ознакомится с тарифами на наши услуги. ',
-    //         image: 'https://varnoff.ru/assets/img/web1.jpg'
-    //     },
-    //     {
-    //         title: '163.RU',
-    //         description: 'В работе находится информационный портал Самарской области. Сроки запуска проекта пока неизвесты, но мы его всетаки доделаем ',
-    //         image: 'https://varnoff.ru/assets/img/web2.jpg'
-    //     },
-    // ];
     
 
 
@@ -79,21 +51,6 @@ const HomePage: FC = (): JSX.Element => {
             <GelleryStyle>
                 <GalleryComponent/>
             </GelleryStyle>
-            {/* <Box>
-                <StatusComponent/>
-            </Box> */}
-            {/* <Box sx={{marginTop: '90px'}}>
-                <Box display="flex" justifyContent="center" flexWrap="wrap">
-                    {cardsData.map((card, index) => (
-                        <CardComponent
-                            key={index}
-                            title={card.title}
-                            description={card.description}
-                            image={card.image}
-                        />
-                    ))}
-                </Box>
-            </Box> */}
             <Box component="footer" mt="auto">
                 <Footer />
             </Box>

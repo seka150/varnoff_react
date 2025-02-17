@@ -8,7 +8,7 @@ export const useStyled = (theme: Theme) => {
   });
 
   const History = styled(Paper)({
-    backgroundImage: 'url(https://i.pinimg.com/564x/07/52/40/075240dc018c6ea3e462277e09bfe03d.jpg)',
+    backgroundImage: 'url(https://i.pinimg.com/736x/91/b1/44/91b14417dcd42594f694c6df634cb31f.jpg)',
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     display: 'flex',

@@ -13,10 +13,10 @@ const Footer: React.FC = () => {
     <FooterContainer>
       <Container maxWidth="lg">
         <Typography variant="h6" align="center" gutterBottom>
-          V@RNOFF
+        ИП ВДОВЕНКО А.С.
         </Typography>
         <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
-          Интернет-Агентство, котрый может предложить полный спектр услуг в области Интернет бизнеса.
+          Индивидуальный предприниматель в сфере строительства.
         </Typography>
         <Box mt={4} display="flex" justifyContent="center">
           <Link href="#" variant="body2" color="textSecondary" sx={{ mx: 1 }}>
@@ -33,7 +33,7 @@ const Footer: React.FC = () => {
           <Typography variant="body2" color="textSecondary" align="center">
             {'© '}
             <Link color="inherit" href="https://example.com/">
-              V@RNOFF
+              ИП ВДОВЕНКО А.С.
             </Link>{' '}
             {new Date().getFullYear()}
             {'. Все права защищены.'}
