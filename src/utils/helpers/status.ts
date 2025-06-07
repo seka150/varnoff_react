@@ -5,5 +5,6 @@ interface Translations {
 export const statuses: Translations = {
     1: "Новый",
     2: "В порцессе",
-    3: "Заверщен"
+    3: "Заверщен", 
+    4: "Доставка"
 };
