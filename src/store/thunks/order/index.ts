@@ -2,20 +2,24 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { instanceAuth } from "utils/axios";
 
 export interface IOrder {
-    title: string;
-    description: string;
+    length: number;
+    width: number;
+    height: number;
     userId: number | null;
     serviceId: number;
     statusId: number;
+    coveringId: number;
 }
 
 export interface IGetOrder {
     id: number,
-    title: string;
-    description: string;
+    length: number;
+    width: number;
+    height: number;
     userId: number | null;
     serviceId: number;
     statusId: number;
+    coveringId: number;
 }
 
 export const getOrder = createAsyncThunk<IGetOrder[], void, { rejectValue: string }>(
@@ -37,7 +41,7 @@ export const getOrder = createAsyncThunk<IGetOrder[], void, { rejectValue: strin
 
 
 export const createOrder = createAsyncThunk<IGetOrder, IOrder, { rejectValue: string }>(
-    'create-order',
+    'create/order',
     async (data, { rejectWithValue }) => {
         try {
             const order = await instanceAuth.post('/order/create', data);

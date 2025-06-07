@@ -5,7 +5,13 @@ export interface GetOrdersComponentProps {
     orders: any
 }
 
+export interface ICovering {
+    id: number;
+    type: string;
+}
+
 export interface IOrderProps {
     service: IAssetsService[];
     getSingleAssets: any;
+    covering: ICovering[];
 }

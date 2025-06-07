@@ -1,206 +1,180 @@
 import React, { useState } from "react";
-import { Alert, AlertColor, Autocomplete, Box, Button, Snackbar, TextField, Typography, useTheme } from "@mui/material";
-import { useStyled } from "./slyles";
+import { Alert, AlertColor, Autocomplete, Box, Button, Snackbar, TextField, useTheme } from "@mui/material";
 import SendIcon from '@mui/icons-material/Send';
-import { GridColDef, GridRowModel } from "@mui/x-data-grid";
-import { translations } from "utils/helpers/translation";
 import { useAppDispatch, useAppSelector } from "utils/hook";
 import { createOrder } from "store/thunks/order";
 import { IOrderProps } from "common/types/order";
-
+import { useStyled } from "./slyles";
+import { IAssetsService } from "common/types/service";
 
 const Order = (props: IOrderProps) => {
-    const { service,  getSingleAssets} = props;
+    const { service, getSingleAssets, covering } = props;
     const serviceArray = Object.values(service);
+    const coveringArray = Object.values(covering);
     const theme = useTheme();
-    const {TextFilding, Root, Buttons, SelectBox, Autocompletebox, ButtonSend, Table} = useStyled(theme);
-    const [orderTitle, setOrderTitle] = useState('');
-    const [orderDescription, setOrderDescription] = useState('');
+    const { TextFilding, Root, Buttons } = useStyled(theme);
     const dispatch = useAppDispatch();
-    const [selectedService, setSelectedService] = useState<string | null>(null);
-    const statusId = 1;
-    const [columns, setColumns] = useState<GridColDef[]>([]);
-    const [rows, setRows] = useState<GridRowModel[]>([]);
     const { user } = useAppSelector(state => state.auth.user);
+    const [orderLength, setOrderLength] = useState('');
+    const [orderWidth, setOrderWidth] = useState('');
+    const [orderHeight, setOrderHeight] = useState('');
+    const [selectedService, setSelectedService] = useState<string | null>(null);
+    const [selectedCovering, setSelectedCovering] = useState<string | null>(null);
     const [open, setOpen] = useState(false);
     const [error, setError] = useState(false);
     const [severity, setSeverity] = useState<AlertColor>('success');
+    const statusId = 1;
 
-    const flatServiceArray = serviceArray.flat();
-
-    const serviceWithIds = flatServiceArray.map((service) => ({
+    const serviceWithIds = serviceArray.flat().map(service => ({
         name: service.name,
         url: service.url,
+        id: service.id
+    }));
+
+    const coveringWithIds = coveringArray.flat().map(covering => ({
+        name: covering.type,
+        id: covering.id,
     }));
 
     const handleServiceChange = (event: React.ChangeEvent<{}>, value: string | null) => {
         setSelectedService(value);
     };
 
-    const handleButtonClick = async () => {
-        const selectedServiceData = serviceWithIds.find(service => service.name === selectedService);
-        if (selectedServiceData && selectedServiceData.url) {
-            try {
-                const data = await getSingleAssets({
-                    url: selectedServiceData.url,
-                    otherParams: {}
-                });
-                const services = data.payload.services;
-                const updatedColumns: GridColDef[] = Object.keys(services[0]).map((field) => ({
-                    field: field,
-                    headerName: translations[field] ?? field
-                }));
-
-                const updatedColumnsWithoutLast = updatedColumns.slice(0, -1); 
-                setColumns(updatedColumnsWithoutLast);
-
-                const updatedRows: GridRowModel[] = services.map((service: any, index: number) => ({
-                    id: index + 1, 
-                    ...service,
-                }));
-                setRows(updatedRows);
-            } catch (error) {
-                console.error("Ошибка при загрузке данных для выбранного сервиса:", error);
-            }
-        }
+    const handleCoveringChange = (event: React.ChangeEvent<{}>, value: string | null) => {
+        setSelectedCovering(value);
     };
 
     const handleSendClick = async () => {
-        if (!selectedService) {
-            setError(true);
-            setSeverity('error');
-            setOpen(true);
-            setTimeout(() => {
-                setOpen(false);
-            }, 2000);
-            return; 
-        }
+    if (!selectedService || !orderLength || !orderWidth || !orderHeight || !selectedCovering) {
+        setError(true);
+        setSeverity('error');
+        setOpen(true);
+        setTimeout(() => setOpen(false), 2000);
+        return;
+    }
 
-        if (!orderTitle || !orderDescription) {
-            setError(true);
-            setSeverity('error');
-            setOpen(true);
-            setTimeout(() => {
-                setOpen(false);
-            }, 2000);
-            return;
-        }
+    const selectedServiceData = serviceWithIds.find(service => service.name === selectedService);
+    const selectedCoveringData = coveringWithIds.find(covering => covering.name === selectedCovering);
 
-        const selectedServiceData = serviceWithIds.find((service) => service.name === selectedService);
-        if (selectedServiceData && selectedServiceData.url) {
-            try {
-                const data = await getSingleAssets({
-                    url: selectedServiceData.url,
-                    otherParams: {},
-                });
-                const services = data.payload.services;
-                const serviceId =
-                    services.find((service: { serviceId: number }) => service.serviceId)?.serviceId || 0;
-                const response = await dispatch(
-                    createOrder({
-                        serviceId: serviceId,
-                        userId: user?.id,
-                        title: orderTitle,
-                        description: orderDescription,
-                        statusId: statusId,
-                    })
-                );
 
-                const orderId = response.payload;
-                console.log("Заказ успешно создан. ID заказа:", orderId);
-                setError(false);
-                setSeverity('success');
-                setOpen(true);
-                setTimeout(() => {
-                    setOpen(false);
-                }, 2000);
-            } catch (error) {
-                console.error("Ошибка при отправке заказа:", error);
+    if (selectedServiceData?.id && selectedServiceData.url && selectedCoveringData) {
+        try {
+            const data = await getSingleAssets({
+                id: selectedServiceData.id,
+                url: selectedServiceData.url,
+                otherParams: {},
+            });
+
+            const services = data.payload.services as IAssetsService[];
+
+
+            const serviceId = selectedServiceData.id;
+
+            if (serviceId === undefined) {
+                console.error("Сервис не найден");
                 setError(true);
                 setSeverity('error');
                 setOpen(true);
-                setTimeout(() => {
-                    setOpen(false);
-                }, 2000);
+                setTimeout(() => setOpen(false), 2000);
+                return;
             }
-        }
-    };
+            
 
-    const handleClearClick = () => {
-        setSelectedService(null);
-        setOrderTitle('');
-        setOrderDescription('');
-        setColumns([]);
-        setRows([]);
-    };
+            const response = await dispatch(
+                createOrder({
+                    serviceId: serviceId,
+                    userId: user?.id,
+                    length: Number(orderLength),
+                    width: Number(orderWidth),
+                    height: Number(orderHeight),
+                    statusId: statusId,
+                    coveringId: selectedCoveringData.id,
+                })
+            );
+
+            console.log('Order data:', {
+                serviceId: serviceId,
+                userId: user?.id,
+                length: Number(orderLength),
+                width: Number(orderWidth),
+                height: Number(orderHeight),
+                statusId: statusId,
+                coveringId: selectedCoveringData.id,
+            });
+
+            if (createOrder.fulfilled.match(response)) {
+                console.log("Заказ успешно создан. ID заказа:", response.payload);
+                setError(false);
+                setSeverity('success');
+            } else {
+                console.error("Ошибка при создании заказа:", response.payload);
+                setError(true);
+                setSeverity('error');
+            }
+
+            setOpen(true);
+            setTimeout(() => setOpen(false), 2000);
+        } catch (error) {
+            console.error("Ошибка при отправке заказа:", error);
+            setError(true);
+            setSeverity('error');
+            setOpen(true);
+            setTimeout(() => setOpen(false), 2000);
+        }
+    } else {
+        console.error("Ошибка: сервис или покрытие не найдено");
+        setError(true);
+        setSeverity('error');
+        setOpen(true);
+        setTimeout(() => setOpen(false), 2000);
+    }
+    
+};
+
+    
 
     return (
         <Root>
-            <SelectBox>
-                <Autocompletebox>
-                    <Autocomplete
-                        disablePortal
-                        id="combo-box-demo"
-                        options={serviceWithIds.map(service => service.name)}
-                        value={selectedService}
-                        onChange={handleServiceChange}
-                        sx={{width: 250}}
-                        renderInput={(params) => <TextField {...params} label="Услуги" />}
-                    />
-                    <ButtonSend variant="outlined" onClick={handleButtonClick}>Найти</ButtonSend>
-                </Autocompletebox>
-                <Box>
-                    <Table
-                        rows={rows}
-                        columns={columns}
-                        initialState={{
-                        pagination: {
-                            paginationModel: { page: 0, pageSize: 5 },
-                        },
-                        }}
-                        pageSizeOptions={[5, 10]}
-                    />
-                </Box>
-            </SelectBox>
-            <Box sx={{width: '40%'}}>
-                <TextFilding>
-                    <Typography>Добавьте название:</Typography>
-                    <TextField
-                            id="outlined-basic"
-                            label="Введите название"
-                            variant="outlined"
-                            multiline
-                            maxRows={4}
-                            value={orderTitle}
-                            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                                setOrderTitle(event.target.value);
-                            }}
-                        />
-                        <Typography>Добавьте описание:</Typography>
-                        <TextField
-                            id="outlined-basic"
-                            label="Введите описание"
-                            variant="outlined"
-                            multiline
-                            maxRows={4}
-                            value={orderDescription}
-                            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                                setOrderDescription(event.target.value);
-                            }}
-                        />
-                </TextFilding>
-                <Buttons>
-                    <Button variant="outlined" sx={{backgroundColor: 'grey'}} onClick={handleClearClick}>
-                        Очистить выбор
-                    </Button>
-                    <Button variant="contained" endIcon={<SendIcon />} sx={{backgroundColor: 'blue'}} onClick={handleSendClick}>
-                        Отправить
-                    </Button>
-                </Buttons>
-            </Box>
+            <TextFilding>
+                <Autocomplete
+                    disablePortal
+                    options={serviceWithIds.map(service => service.name)}
+                    value={selectedService}
+                    onChange={handleServiceChange}
+                    renderInput={(params) => <TextField {...params} label="Тип навеса" />}
+                />
+                <TextField 
+                    label="Длина" 
+                    variant="outlined" 
+                    value={orderLength} 
+                    onChange={(e) => setOrderLength(e.target.value)}
+                />
+                <TextField 
+                    label="Ширина" 
+                    variant="outlined" 
+                    value={orderWidth} 
+                    onChange={(e) => setOrderWidth(e.target.value)}
+                />
+                <TextField 
+                    label="Высота" 
+                    variant="outlined" 
+                    value={orderHeight} 
+                    onChange={(e) => setOrderHeight(e.target.value)}
+                />
+                <Autocomplete
+                    disablePortal
+                    options={coveringWithIds.map(covering => covering.name)}
+                    value={selectedCovering}
+                    onChange={handleCoveringChange}
+                    renderInput={(params) => <TextField {...params} label="Тип покрытия" />}
+                />
+            </TextFilding>
+            <Buttons>
+                <Button variant="contained" endIcon={<SendIcon />} onClick={handleSendClick}>Отправить</Button>
+            </Buttons>
             <Snackbar open={open} autoHideDuration={6000}>
                 <Alert severity={severity} sx={{ width: '100%' }}>
-                    {!error ? 'Success!' : 'Ooops'}
+                    {!error ? 'Заказ отправлен!' : 'Ошибка! Проверьте введенные данные.'}
                 </Alert>
             </Snackbar>
         </Root>

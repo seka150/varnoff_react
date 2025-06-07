@@ -44,6 +44,8 @@ const GetOrdersComponent: React.FC<GetOrdersComponentProps> = ({ hideUpdateColum
                 return '#FFC107';
             case 3:
                 return '#F44336';
+            case 4:
+                return '#0000ff';
             default:
                 return 'inherit';
         }
@@ -109,9 +111,10 @@ const GetOrdersComponent: React.FC<GetOrdersComponentProps> = ({ hideUpdateColum
                         {rows.map((row, index) => (
                             <TableRow key={index}>
                                 <TableCell component="th" scope="row">
-                                    {row.title}
+                                    {row.height}
                                 </TableCell>
-                                <TableCell align="right">{row.description}</TableCell>
+                                <TableCell align="right">{row.length}</TableCell>
+                                <TableCell align="right">{row.width}</TableCell>
                                 <TableCell align="right">
                                     <Button style={{ backgroundColor: getStatusCellColor(row.statusId), color: '#fff', cursor: 'auto' }}>
                                         {statuses[row.statusId]}
@@ -138,6 +141,7 @@ const GetOrdersComponent: React.FC<GetOrdersComponentProps> = ({ hideUpdateColum
                                                 }}
                                             >
                                                 <MenuItem value={1}>Новый</MenuItem>
+                                                <MenuItem value={4}>Доставка</MenuItem>
                                                 <MenuItem value={2}>В процессе</MenuItem>
                                                 <MenuItem value={3}>Завершен</MenuItem>
                                             </Select>
